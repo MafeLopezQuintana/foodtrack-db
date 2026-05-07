@@ -1,0 +1,6988 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://claude.ai/chat/d5c90957-827a-4f0b-8fef-b0541e83fd2f -->
+<html data-build-id="1cd7f48e50" data-git-hash="91563cac31328521c76c01688dc8001cd7f48e50" data-build-timestamp="1778129173" data-version="1.0.0" data-env="" data-color-version="v2" lang="es-ES" data-theme="claude" data-mode="light" class="h-screen antialiased scroll-smooth" style="--font-user-message: var(--font-sans-serif); --font-claude-response: var(--font-serif);"><head data-ion-ip-country="AR"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="preconnect" href="https://assets-proxy.anthropic.com/" crossorigin=""><link rel="dns-prefetch" href="https://assets-proxy.anthropic.com/"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Proyecto foodtrack-db: SQL y DBeaver desde cero - Claude</title><meta name="apple-itunes-app" content="app-id=6473753684"><meta property="og:type" content="website"><meta property="og:site_name" content="Claude"><meta property="og:image" content="https://claude.ai/images/claude_ogimage.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/svg+xml" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cd02a42d9-Vq_H3mgS.svg"><link rel="icon" type="image/png" sizes="32x32" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/ce67964e7-CAX1bqSh.png"><link rel="icon" type="image/png" sizes="16x16" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c03e51811-DebilQLI.png"><link rel="shortcut icon" href="https://claude.ai/favicon.ico"><link rel="apple-touch-icon" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c129d018a-jJjJELY8.png"><link rel="apple-touch-startup-image" href="https://claude.ai/images/claude_app_icon.png"><link rel="manifest" href="https://claude.ai/manifest.json"><meta name="mobile-web-app-capable" content="yes"><link rel="preload" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cc27851ad-CFxw3nG7.woff2" as="font" type="font/woff2" crossorigin=""><link rel="preload" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c66fc489e-C-BHYa_K.woff2" as="font" type="font/woff2" crossorigin=""><script type="text/javascript" src="./01_create_tables_files/f12a4347e1080fb88155.js.descarga" async="" status="loaded"></script><script nonce="">void 0===globalThis.process&&(globalThis.process={env:{},cwd:function(){return"/"}}),void 0===globalThis.global&&(globalThis.global=globalThis)</script><script type="application/ld+json" nonce="">{
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "Claude",
+            "alternateName": ["Claude.ai", "Claude by Anthropic"],
+            "url": "https://claude.com"
+          },
+          {
+            "@type": "Organization",
+            "name": "Anthropic",
+            "url": "https://www.anthropic.com",
+            "logo": "https://claude.ai/images/claude_ogimage.png",
+            "sameAs": [
+              "https://x.com/AnthropicAI",
+              "https://www.linkedin.com/company/anthropic",
+              "https://www.youtube.com/@anthropic-ai"
+            ]
+          }
+        ]
+      }</script><script nonce="">!function(){try{performance.mark?.("rq_cache:preload_start");const e="keyval-store",o="keyval",r="react-query-cache",t=new Promise(t=>{if(!window.indexedDB)return void t(void 0);const c=indexedDB.open(e);c.onupgradeneeded=()=>{c.transaction?.abort()},c.onerror=()=>t(void 0),c.onsuccess=()=>{const a=c.result;if(!a.objectStoreNames.contains(o))return a.close(),indexedDB.deleteDatabase(e),void t(void 0);try{const e=a.transaction(o,"readonly").objectStore(o).get(r);e.onerror=()=>{a.close(),t(void 0)},e.onsuccess=()=>{a.close(),window.__PRELOADED_IDB_CACHE_RESULT__=e.result,t(e.result)}}catch{a.close(),t(void 0)}}});window.__PRELOADED_IDB_CACHE__=t,performance.measure?.("rq_cache:preload_exec",{start:"rq_cache:preload_start"})}catch{}}()</script><script type="module" crossorigin="" src="./01_create_tables_files/index-DYxaD5p8.js.descarga" nonce=""></script><link rel="modulepreload" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/vendor-BpoCJnEF.js"><link rel="modulepreload" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/ccc72bfa9-D8NF8oKx.js"><link rel="modulepreload" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c723dd3dd-BYGmb2Iy.js"><link rel="modulepreload" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/ce67e52fa-CN8lRLXF.js"><link rel="modulepreload" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c2b5b5d37-CS0ovKRd.js"><link rel="modulepreload" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/tree-sitter-BfScwQVn.js"><link rel="stylesheet" crossorigin="" href="./01_create_tables_files/ccc72bfa9-DDwtwZDd.css"><link rel="stylesheet" crossorigin="" href="./01_create_tables_files/c723dd3dd-BkTVBA1G.css"><link rel="stylesheet" crossorigin="" href="./01_create_tables_files/c6a992d55-C5-PdE-8.css"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c6a992d55-BsIwAccp.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c6a992d55-Dt495CMo.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cd30666f2-fSnfhmCF.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/ce985dfcc-BZLnOazw.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cab58c3d2-DJyQ5USs.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/ccca85712-CTfnyRlu.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c6a9356e8-BETpa3-P.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cfcbb3627-BUmFwJIU.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c8ff922bb-BJXE1utC.js"><link rel="stylesheet" crossorigin="" href="./01_create_tables_files/cfcbb3627-CE4NsOix.css"><link rel="stylesheet" crossorigin="" href="./01_create_tables_files/c6a9356e8-C5vT29Ee.css"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cd18589e3-C-2CgVeB.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c81c3b080-DqNRUD4L.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c3a484033-DeCF8Ef8.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c32f15cb4-DGXgYs96.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c72812e30-COzTNcFv.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c26148d62-CPC6WrCf.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c4ba74563-BGzMMDFZ.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c62343a9d-5wnQ7jCZ.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c4a0394fd-gjJhPvw6.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c13bf9bfa-D4T6tRA4.js"><link rel="stylesheet" crossorigin="" href="./01_create_tables_files/c13bf9bfa-DpsRipQV.css"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c2044c1ea-B615ZzAB.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c71860c77-CvM9zkuw.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c4b73011a-BRXkOGHK.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c71860c77-CjVQSNeD.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c8901fcbe-PoKujU4P.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c14703658-CnIXqYIt.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c41323917-DNRETYsp.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c606eaf84-D_Ars428.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cd711b551-lXuPFoyO.js"><meta name="x-route-title" data-router-head="" data-intended-title="Claude"><meta name="description" content="Claude is Anthropic&#39;s AI, built for problem solvers. Tackle complex challenges, analyze data, write code, and think through your hardest work." data-router-head=""><meta name="theme-color" content="hsl(60,11%,95%)"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cf0bcab69-C24IzIpT.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cbf688cef-cr6iVq82.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c29bb5332-CdPU_wf9.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cb70703d8-x06siX87.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cf72774a7-mj6QSRy-.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c9bba154c-CcbgZfQJ.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c1d4c86a8-CejykruL.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c1b9de416-Dggr_JWC.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c35aea241-C8ZvXr8p.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cd2515372-B-whVqbi.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cde7c3a92-BekWXQ7S.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c6a992d55-BtFrgCKK.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c6a992d55-DZmlu53n.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c5669b8e4-V2uxiUsM.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c393cb7f5-DnB7kB-r.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cc00a92fc-CV8S775A.js"><link rel="modulepreload" as="script" crossorigin="" href="https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/c6a992d55-5SRL32UK.js"></head><body class="bg-bg-100 text-text-100 font-ui min-h-screen chat-ui-core" style="pointer-events: auto;"><div id="root"><div class="root"><div class="grid w-full overflow-hidden" style="height: calc(100dvh - var(--app-install-banner-height, 0px) - var(--dev-dashboard-height, 0px)); grid-template-rows: 0px 1fr; transition: grid-template-rows 0.15s ease-out;"><div></div><div class="flex min-h-0 min-w-0 w-full overflow-x-clip relative overflow-y-auto"><div class="pointer-events-none absolute inset-0 bg-bg-100 [background-image:linear-gradient(to_right,hsl(var(--bg-200))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--bg-200))_1px,transparent_1px)] [background-size:32px_32px]" aria-hidden="true" style="clip-path: circle(150% at 50% 50%); opacity: 0;"></div><div class="shrink-0" style="overflow: hidden; width: auto; opacity: 1;"><div class="fixed lg:sticky z-sidebar" style="width: 3.05rem;"><nav class="flex flex-col px-0 fixed left-0 border-r-0.5 h-screen lg:bg-gradient-to-t from-bg-200/5 to-bg-200/30 border-border-300 bg-bg-100 transition-[background-color,border-color,box-shadow] duration-[35ms]" aria-label="Barra lateral" style="width: 3.05rem; top: 0px; padding-top: var(--app-install-banner-height, 0px); padding-bottom: var(--dev-dashboard-height, 0px);"><div class="relative flex w-full items-center p-2 pointer-events-auto pt-2"><div class="flex items-center gap-1.5 pl-2 h-8 overflow-clip [overflow-clip-margin:4px] transition-opacity duration-150 opacity-0 pointer-events-none"><a href="https://claude.ai/new" class="flex flex-col justify-start items-top" aria-label="Inicio" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 16" class="h-4 flex-shrink-0 text-text-100" height="16" fill="currentColor" aria-label="Claude"><path d="M7.98 15.73C6.50667 15.73 5.17667 15.4367 3.99 14.85C2.81 14.2567 1.88 13.4167 1.2 12.33C0.526669 11.2367 0.190002 9.96334 0.190002 8.51001C0.190002 7.01001 0.526669 5.67334 1.2 4.50001C1.87334 3.32668 2.8 2.41668 3.98 1.77001C5.16667 1.11668 6.49334 0.790009 7.96 0.790009C8.88667 0.790009 9.81667 0.896676 10.75 1.11001C11.69 1.32334 12.5033 1.64001 13.19 2.06001V5.36001H12.29C12.05 4.22668 11.5867 3.36334 10.9 2.77001C10.2133 2.17668 9.24 1.88001 7.98 1.88001C6.85334 1.88001 5.91334 2.15334 5.16 2.70001C4.40667 3.24001 3.84667 3.98334 3.48 4.93001C3.12 5.87001 2.94 6.94668 2.94 8.16001C2.94 9.37334 3.14667 10.4733 3.56 11.46C3.97334 12.44 4.57667 13.2167 5.37 13.79C6.16334 14.3567 7.11 14.64 8.21 14.64C8.97667 14.64 9.63667 14.4733 10.19 14.14C10.75 13.8 11.2167 13.3533 11.59 12.8C11.97 12.2467 12.3367 11.5667 12.69 10.76H13.63L12.99 14.43C12.35 14.8567 11.5733 15.18 10.66 15.4C9.75334 15.62 8.86 15.73 7.98 15.73ZM15.15 14.63C15.4833 14.5833 15.7433 14.53 15.93 14.47C16.1167 14.41 16.2633 14.3167 16.37 14.19C16.4767 14.0567 16.53 13.8733 16.53 13.64V2.96001L15.15 2.31001V1.65001L18.12 0.26001H18.91V13.64C18.91 13.8733 18.9633 14.0567 19.07 14.19C19.1767 14.3167 19.3233 14.41 19.51 14.47C19.6967 14.53 19.96 14.5833 20.3 14.63V15.5H15.15V14.63ZM24.44 15.73C23.8867 15.73 23.39 15.6167 22.95 15.39C22.51 15.1567 22.1667 14.8367 21.92 14.43C21.68 14.0233 21.56 13.5567 21.56 13.03C21.56 12.2633 21.7967 11.6233 22.27 11.11C22.75 10.5967 23.47 10.2033 24.43 9.93001L27.87 8.96001V7.56001C27.87 6.85334 27.7033 6.31668 27.37 5.95001C27.0433 5.58334 26.5633 5.40001 25.93 5.40001C25.37 5.40001 24.93 5.57668 24.61 5.93001C24.2967 6.27668 24.14 6.75668 24.14 7.37001V8.35001H22.47C22.2833 8.23001 22.1367 8.06334 22.03 7.85001C21.93 7.63668 21.88 7.40334 21.88 7.15001C21.88 6.67668 22.06 6.24001 22.42 5.84001C22.78 5.43334 23.2633 5.11334 23.87 4.88001C24.4833 4.64668 25.16 4.53001 25.9 4.53001C26.8133 4.53001 27.5933 4.67334 28.24 4.96001C28.8933 5.24668 29.39 5.66668 29.73 6.22001C30.0767 6.77334 30.25 7.43668 30.25 8.21001V13.5C30.25 13.7333 30.29 13.9133 30.37 14.04C30.45 14.1667 30.5867 14.2667 30.78 14.34C30.98 14.4133 31.2633 14.4767 31.63 14.53V15.39C31.0967 15.5967 30.5633 15.7 30.03 15.7C29.4367 15.7 28.9567 15.56 28.59 15.28C28.23 15 28.0067 14.6 27.92 14.08C27.44 14.62 26.9067 15.03 26.32 15.31C25.7333 15.59 25.1067 15.73 24.44 15.73ZM25.62 14.13C26.0067 14.13 26.3967 14.0433 26.79 13.87C27.1833 13.69 27.5433 13.4433 27.87 13.13V9.87001L25.43 10.61C24.9233 10.7567 24.5433 10.99 24.29 11.31C24.0433 11.6233 23.92 12.0267 23.92 12.52C23.92 12.8267 23.9933 13.1033 24.14 13.35C24.2867 13.59 24.49 13.78 24.75 13.92C25.01 14.06 25.3 14.13 25.62 14.13ZM36.56 15.73C35.48 15.73 34.68 15.4467 34.16 14.88C33.6467 14.3133 33.39 13.53 33.39 12.53V6.91001L32.01 6.37001V5.70001L34.98 4.53001H35.77V12.12C35.77 12.7533 35.9233 13.2233 36.23 13.53C36.5433 13.8367 37.0133 13.99 37.64 13.99C38.0533 13.99 38.4833 13.8967 38.93 13.71C39.3833 13.5167 39.8 13.27 40.18 12.97V6.91001L38.8 6.37001V5.70001L41.77 4.53001H42.56V12.91C42.56 13.17 42.6133 13.37 42.72 13.51C42.8333 13.65 42.9833 13.7533 43.17 13.82C43.3567 13.88 43.6167 13.9333 43.95 13.98V14.84L40.97 15.69H40.18V13.96C39.6667 14.4933 39.0867 14.9233 38.44 15.25C37.8 15.57 37.1733 15.73 36.56 15.73ZM49.61 15.73C48.7367 15.73 47.9567 15.51 47.27 15.07C46.5833 14.6233 46.0467 14.02 45.66 13.26C45.28 12.5 45.09 11.66 45.09 10.74C45.09 9.56668 45.3167 8.51001 45.77 7.57001C46.2233 6.63001 46.8733 5.89001 47.72 5.35001C48.5733 4.80334 49.5767 4.53001 50.73 4.53001C51.0767 4.53001 51.43 4.56668 51.79 4.64001C52.15 4.70668 52.4967 4.81001 52.83 4.95001V2.96001L51.45 2.31001V1.65001L54.42 0.26001H55.21V12.91C55.21 13.17 55.2633 13.37 55.37 13.51C55.4833 13.65 55.6333 13.7533 55.82 13.82C56.0067 13.88 56.2667 13.9333 56.6 13.98V14.84L53.62 15.69H52.83V14.39C52.3833 14.8167 51.8867 15.1467 51.34 15.38C50.7933 15.6133 50.2167 15.73 49.61 15.73ZM50.6 14.12C50.9867 14.12 51.3733 14.0467 51.76 13.9C52.1467 13.7467 52.5033 13.5367 52.83 13.27V6.38001C52.2567 5.92001 51.6167 5.69001 50.91 5.69001C50.1767 5.69001 49.5567 5.89001 49.05 6.29001C48.55 6.68334 48.1767 7.21334 47.93 7.88001C47.69 8.54668 47.57 9.28334 47.57 10.09C47.57 10.8567 47.6767 11.5433 47.89 12.15C48.11 12.7567 48.4467 13.2367 48.9 13.59C49.3533 13.9433 49.92 14.12 50.6 14.12ZM62.93 15.73C61.9433 15.73 61.0533 15.4967 60.26 15.03C59.4733 14.5567 58.8567 13.9033 58.41 13.07C57.9633 12.2367 57.74 11.3 57.74 10.26C57.74 9.18001 57.9667 8.20334 58.42 7.33001C58.88 6.45668 59.51 5.77334 60.31 5.28001C61.1167 4.78001 62.0167 4.53001 63.01 4.53001C63.77 4.53001 64.4667 4.68668 65.1 5.00001C65.7333 5.31334 66.2567 5.76001 66.67 6.34001C67.09 6.92001 67.37 7.59001 67.51 8.35001L60.14 10.66C60.3333 11.62 60.7267 12.38 61.32 12.94C61.92 13.4933 62.67 13.77 63.57 13.77C64.31 13.77 64.9767 13.5733 65.57 13.18C66.17 12.78 66.7 12.18 67.16 11.38L67.93 11.63C67.7633 12.4433 67.44 13.16 66.96 13.78C66.4867 14.4 65.9 14.88 65.2 15.22C64.5067 15.56 63.75 15.73 62.93 15.73ZM64.95 8.03001C64.8567 7.55668 64.6933 7.14001 64.46 6.78001C64.2267 6.42001 63.94 6.14001 63.6 5.94001C63.2667 5.74001 62.9033 5.64001 62.51 5.64001C62.01 5.64001 61.57 5.79334 61.19 6.10001C60.8167 6.40001 60.5267 6.83001 60.32 7.39001C60.1133 7.95001 60.01 8.60001 60.01 9.34001C60.01 9.46668 60.0133 9.56334 60.02 9.63001L64.95 8.03001Z"></path></svg></a></div><div class="absolute right-2 top-2"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="pin-sidebar-toggle" aria-label="Abrir barra lateral" aria-pressed="false" data-state="closed"><div class="relative size-4 flex items-center justify-center"><div class="transition text-text-400 group-hover:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition text-text-400 group-hover:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M16.5 4A1.5 1.5 0 0 1 18 5.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 2 14.5v-9A1.5 1.5 0 0 1 3.5 4zM7 15h9.5a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5H7zM3.5 5a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5H6V5z"></path></svg></div><div class="opacity-0 scale-75 absolute inset-0 transition-all text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="opacity-0 scale-75 absolute inset-0 transition-all text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M16.5 3a.5.5 0 0 1 .5.5v13l-.01.1a.5.5 0 0 1-.98 0l-.01-.1v-13a.5.5 0 0 1 .5-.5M8.128 5.165a.5.5 0 0 1 .625-.097l.082.06 5 4.5a.5.5 0 0 1 .07.666l-.07.078-5 4.5a.501.501 0 0 1-.67-.744l4.031-3.628H3.5a.5.5 0 0 1 0-1h8.696L8.165 5.872l-.067-.075a.5.5 0 0 1 .03-.632"></path></svg></div></div></button></div></div><div class="flex flex-col flex-grow align-center overflow-hidden min-h-0" aria-hidden="false"><div class="flex flex-col gap-px pt-2"><div class="px-2"><div class="relative group" data-state="closed"><a href="https://claude.ai/new" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Nueva conversación" data-dd-action-name="sidebar-new-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100"><div class="flex items-center justify-center rounded-full transition-all ease-in-out group-hover:-rotate-3 group-hover:scale-110 group-active:rotate-6 group-active:scale-[0.98]"><div class="flex items-center justify-center rounded-full size-[1.4rem] -mx-[0.2rem] bg-text-500/15 active:bg-text-200 group-hover:bg-text-500/25"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-300 group-hover:text-text-000" aria-hidden="true" style="flex-shrink: 0;"><path d="M10 3a.75.75 0 0 1 .75.75v5.5h5.5a.75.75 0 0 1 .077 1.496l-.077.004h-5.5v5.5a.75.75 0 0 1-1.5 0v-5.5h-5.5a.75.75 0 0 1 0-1.5h5.5v-5.5A.75.75 0 0 1 10 3"></path></svg></div></div></div><span class="truncate text-sm whitespace-nowrap flex-1"><div class="opacity-0 transition-opacity ease-out duration-150">Nueva conversación</div></span></div></a></div></div><div class="px-2"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/d5c90957-827a-4f0b-8fef-b0541e83fd2f#" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Buscar" data-dd-action-name="sidebar-nav-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100"><div style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M8.5 2a6.5 6.5 0 0 1 4.935 10.728l4.419 4.419.064.078a.5.5 0 0 1-.693.693l-.079-.064-4.419-4.42A6.5 6.5 0 1 1 8.5 2m0 1a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11"></path></svg></div></div><span class="truncate text-sm whitespace-nowrap flex-1"><div class="opacity-0 transition-opacity ease-out duration-150">Buscar</div></span></div></a></div></div></div><div class="flex flex-grow flex-col overflow-x-hidden relative transition-[border-color] !outline-none overflow-y-auto border-t-0.5 border-transparent" tabindex="-1"><div class="flex flex-col px-2 gap-px"><div class="relative group" data-state="closed"><a href="https://claude.ai/recents" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Chats" data-dd-action-name="sidebar-nav-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100"><div class="group" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group" aria-hidden="true" style="flex-shrink: 0;"><path class="group-hover:-translate-x-[0.5px] transition group-active:translate-x-0" d="M8.99962 2C12.3133 2 14.9996 4.68629 14.9996 8C14.9996 11.3137 12.3133 14 8.99962 14H2.49962C2.30105 13.9998 2.12113 13.8821 2.04161 13.7002C1.96224 13.5181 1.99835 13.3058 2.1334 13.1602L3.93516 11.2178C3.34317 10.2878 2.99962 9.18343 2.99962 8C2.99962 4.68643 5.68609 2.00022 8.99962 2ZM8.99962 3C6.23838 3.00022 3.99961 5.23871 3.99961 8C3.99961 9.11212 4.36265 10.1386 4.97618 10.9688C5.11884 11.1621 5.1035 11.4293 4.94004 11.6055L3.64512 13H8.99962C11.761 13 13.9996 10.7614 13.9996 8C13.9996 5.23858 11.761 3 8.99962 3Z"></path><path class="group-hover:translate-x-[0.5px] transition group-active:translate-x-0" d="M16.5445 9.72754C16.4182 9.53266 16.1678 9.44648 15.943 9.53418C15.7183 9.62215 15.5932 9.85502 15.6324 10.084L15.7369 10.3955C15.9073 10.8986 16.0006 11.438 16.0006 12C16.0006 13.1123 15.6376 14.1386 15.024 14.9687C14.8811 15.1621 14.8956 15.4302 15.0592 15.6064L16.3531 17H11.0006C9.54519 17 8.23527 16.3782 7.32091 15.3848L7.07091 15.1103C6.88996 14.9645 6.62535 14.9606 6.43907 15.1143C6.25267 15.2682 6.20668 15.529 6.31603 15.7344L6.58458 16.0625C7.68048 17.253 9.25377 18 11.0006 18H17.5006C17.6991 17.9998 17.8791 17.8822 17.9586 17.7002C18.038 17.5181 18.0018 17.3058 17.8668 17.1602L16.0631 15.2178C16.6554 14.2876 17.0006 13.1837 17.0006 12C17.0006 11.3271 16.8891 10.6792 16.6842 10.0742L16.5445 9.72754Z"></path></svg></div></div><span class="truncate text-sm whitespace-nowrap flex-1"><div class="opacity-0 transition-opacity ease-out duration-150"><span>Chats</span></div></span></div></a></div><div class="relative group" data-state="closed"><a href="https://claude.ai/projects" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Proyectos" data-dd-action-name="sidebar-nav-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100"><div class="group" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group" aria-hidden="true" style="flex-shrink: 0;"><path class="group-hover:scale-95 origin-center" d="M15.8198 7C16.6885 7.00025 17.3624 7.73158 17.3178 8.57617L17.2993 8.74707L16.1332 15.7471C16.0126 16.4699 15.3865 16.9996 14.6538 17H5.34711C4.6142 16.9998 3.98833 16.47 3.86762 15.7471L2.7016 8.74707C2.54922 7.83277 3.25418 7 4.18109 7H15.8198ZM4.18109 8C3.87216 8 3.63722 8.27731 3.68793 8.58203L4.85394 15.582C4.89413 15.8229 5.10291 15.9998 5.34711 16H14.6538C14.8978 15.9996 15.1068 15.8228 15.1469 15.582L16.3129 8.58203L16.3188 8.46973C16.3036 8.21259 16.0899 8.00023 15.8198 8H4.18109Z"></path><path class="group-hover:-translate-y-[1.4px] group-hover:translate-x-[0.5px] group-hover:rotate-3 transition group-active:translate-y-0" d="M16.0004 5.5C16.0004 5.224 15.7764 5.00024 15.5004 5H4.50043C4.22428 5 4.00043 5.22386 4.00043 5.5C4.00043 5.77614 4.22428 6 4.50043 6H15.5004C15.7764 5.99976 16.0004 5.776 16.0004 5.5Z"></path><path class="group-hover:-translate-y-[2.8px] group-hover:translate-x-px group-hover:rotate-6 transition group-active:translate-y-0" d="M14.5004 3.5C14.5004 3.224 14.2764 3.00024 14.0004 3H6.00043C5.72428 3 5.50043 3.22386 5.50043 3.5C5.50043 3.77614 5.72428 4 6.00043 4H14.0004C14.2764 3.99976 14.5004 3.776 14.5004 3.5Z"></path></svg></div></div><span class="truncate text-sm whitespace-nowrap flex-1"><div class="opacity-0 transition-opacity ease-out duration-150"><span>Proyectos</span></div></span></div></a></div><div><div class="relative group" data-state="closed"><a href="https://claude.ai/artifacts/my" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Artefactos" data-dd-action-name="sidebar-nav-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100"><div class="group backface-hidden" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group backface-hidden" aria-hidden="true" style="flex-shrink: 0;"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.35352 3.1464L9.35352 6.14642C9.43935 6.25103 9.5 6.36003 9.5 6.50091C9.4998 6.6332 9.44704 6.75988 9.35352 6.85346L6.35352 9.85347C6.14584 10.0609 5.85611 10.0243 5.64648 9.85347L2.64648 6.85346C2.55296 6.75988 2.5002 6.6332 2.5 6.50091C2.5 6.36841 2.55285 6.24017 2.64648 6.14642L5.64648 3.1464C5.8552 2.97421 6.14635 2.93936 6.35352 3.1464ZM6 8.79194L3.70703 6.49994L6 4.20696L8.29297 6.49994L6 8.79194Z"></path><path class="group-hover:-rotate-90 transition-transform duration-200 ease-snappy-out" d="M16.8984 3.7509C16.9875 3.90632 16.986 4.09826 16.8955 4.25286L15.5791 6.49994L16.8955 8.74702C16.986 8.90159 16.9874 9.09354 16.8984 9.24898C16.8093 9.40436 16.643 9.49996 16.4638 9.49996H11.5C11.3198 9.49996 11.1532 9.4028 11.0644 9.24605C10.976 9.08949 10.9789 8.89736 11.0713 8.74312L12.417 6.49994L11.0713 4.25676C10.9789 4.1025 10.976 3.91037 11.0644 3.75383C11.1532 3.59717 11.3199 3.49992 11.5 3.49992H16.4638C16.6429 3.51309 16.8055 3.58909 16.8984 3.7509ZM13.4287 6.2431C13.5152 6.4107 13.5166 6.58638 13.4287 6.75678L12.3828 8.49995H15.5918L14.5683 6.75287C14.477 6.59683 14.477 6.40303 14.5683 6.24701L15.5918 4.49993H12.3828L13.4287 6.2431Z" style="transform-origin: 14px 6.5px;"></path><path class="group-hover:rotate-[120deg] transition-transform duration-200 ease-snappy-out" fill-rule="evenodd" clip-rule="evenodd" d="M7.25293 10.9668C7.40708 10.8793 7.59647 10.8801 7.75 10.9687C7.90356 11.0574 7.99869 11.2211 8 11.3984L8.01074 12.8388L9.30762 13.6054C9.42811 13.6994 9.49994 13.8448 9.5 14C9.5 14.1773 9.40587 14.3418 9.25293 14.4316L8.01074 15.1601L7.99512 16.667C7.97406 16.8184 7.88446 16.9536 7.75 17.0312C7.59642 17.1199 7.40713 17.1207 7.25293 17.0332L6 16.3203L4.74707 17.0332C4.59287 17.1207 4.40358 17.1199 4.25 17.0312C4.09643 16.9425 4.00124 16.7789 4 16.6015L3.99023 15.1601L2.74707 14.4316C2.59413 14.3418 2.5 14.1773 2.5 14C2.50006 13.8448 2.57188 13.6994 2.69238 13.6054L3.99023 12.8388L4 11.3984C4.00131 11.2211 4.09644 11.0574 4.25 10.9687C4.40353 10.8801 4.59292 10.8793 4.74707 10.9668L6 11.6787L7.25293 10.9668ZM4.99512 12.2568L5.75293 12.6884C5.90608 12.7754 6.09392 12.7754 6.24707 12.6884L7.00586 12.2568L7.01172 13.1308C7.01308 13.3068 7.10706 13.4695 7.25879 13.5586L8.01172 14L7.25879 14.4414C7.10706 14.5304 7.01315 14.6932 7.01172 14.8691L7.00586 15.7422L6.24707 15.3115C6.09397 15.2246 5.90603 15.2246 5.75293 15.3115L4.99512 15.7422L4.98828 14.8691C4.98703 14.7152 4.91459 14.5716 4.79492 14.4785L3.98926 14L4.74121 13.5586C4.87421 13.4805 4.96267 13.3457 4.9834 13.1953L4.99512 12.2568Z" style="transform-origin: 6px 14px;"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M14 11C15.6568 11 16.9999 12.3432 17 14C17 15.6568 15.6569 17 14 17C12.3431 17 11 15.6568 11 14C11.0001 12.3432 12.3432 11 14 11ZM12 14C12.0001 12.8955 12.8955 12 14 12C15.1045 12 15.9999 12.8955 16 14C16 15.1045 15.1046 16 14 16C12.8954 16 12 15.1045 12 14Z"></path></svg></div></div><span class="truncate text-sm whitespace-nowrap flex-1"><div class="opacity-0 transition-opacity ease-out duration-150 flex items-center gap-2">Artefactos</div></span></div></a></div></div><div class="relative group" data-state="closed"><a href="https://claude.ai/upgrade" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Código" data-dd-action-name="sidebar-nav-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100 text-text-400/40 group-hover:!text-text-100/40"><div class="group" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group" aria-hidden="true" style="flex-shrink: 0;"><path class="transition" d="M11.6318 4.01757C11.898 4.09032 12.055 4.36555 11.9824 4.63183L8.98242 15.6318C8.90966 15.8981 8.63449 16.0551 8.36816 15.9824C8.10193 15.9097 7.94495 15.6345 8.01758 15.3682L11.0176 4.36816C11.0904 4.102 11.3656 3.94497 11.6318 4.01757Z"></path><path class="group-hover:translate-x-[1px] transition" d="M13.124 6.17089C13.3059 5.96325 13.6213 5.9423 13.8291 6.12402L17.8291 9.62402L17.9014 9.70215C17.9647 9.78754 18 9.89182 18 10C18 10.1441 17.9375 10.281 17.8291 10.376L13.8291 13.876L13.7471 13.9346C13.5449 14.0498 13.2833 14.011 13.124 13.8291C12.9649 13.6472 12.9606 13.3824 13.1016 13.1973L13.1709 13.124L16.7412 10L13.1709 6.87597C12.9632 6.69411 12.9422 6.37866 13.124 6.17089Z"></path><path class="group-hover:-translate-x-[1px] transition" d="M6.25293 6.06542C6.45509 5.95025 6.71675 5.98908 6.87598 6.17089C7.03513 6.35279 7.03933 6.6176 6.89844 6.80273L6.8291 6.87597L3.25879 10L6.8291 13.124C7.03682 13.3059 7.05771 13.6213 6.87598 13.8291C6.69413 14.0369 6.37869 14.0578 6.1709 13.876L2.1709 10.376L2.09863 10.2979C2.03528 10.2124 2 10.1082 2 10C2.00005 9.85591 2.06247 9.71893 2.1709 9.62402L6.1709 6.12402L6.25293 6.06542Z"></path></svg></div></div><span class="truncate text-sm whitespace-nowrap flex-1 text-text-000/40"><div><div class="opacity-0 transition-opacity ease-out duration-150"><span>Código</span></div></div></span></div></a></div><div class="relative group" data-state="closed"><a href="https://claude.ai/customize" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Personalizar" data-dd-action-name="sidebar-nav-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100"><div class="flex items-center justify-center transition-all ease-in-out group-hover:-rotate-3 group-hover:scale-110 group-active:rotate-6 group-active:scale-[0.98]"><div style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h.5A3.5 3.5 0 0 1 18 9.5v6a1.5 1.5 0 0 1-1.5 1.5h-13a1.5 1.5 0 0 1-1.492-1.347L2 15.5v-6A3.5 3.5 0 0 1 5.5 6H6V4.5A1.5 1.5 0 0 1 7.5 3zM3 15.5l.01.1a.5.5 0 0 0 .49.4h13a.5.5 0 0 0 .5-.5V12h-4v.5a.5.5 0 0 1-1 0V12H8v.5a.5.5 0 0 1-1 0V12H3zM5.5 7A2.5 2.5 0 0 0 3 9.5V11h4v-.5a.5.5 0 0 1 1 0v.5h4v-.5a.5.5 0 0 1 1 0v.5h4V9.5A2.5 2.5 0 0 0 14.5 7zm2-3a.5.5 0 0 0-.5.5V6h6V4.5a.5.5 0 0 0-.5-.5z"></path></svg></div></div></div><span class="truncate text-sm whitespace-nowrap flex-1"><div class="opacity-0 transition-opacity ease-out duration-150">Personalizar</div></span></div></a></div></div><div class="flex-1 relative overflow-hidden"><div class="opacity-0 transition-opacity ease-out duration-150" aria-hidden="true" inert=""><div class="px-2 mt-4"><div class="flex flex-col flex-grow"><div class="flex items-center justify-between"><h2 aria-hidden="true" role="button" aria-expanded="true" class="text-text-500 pb-2 mt-1 text-xs select-none pl-2 pr-2 pointer-events-none group/header cursor-pointer flex items-center justify-between gap-2">Recientes<span class="text-text-400 opacity-0 group-hover/header:opacity-75 transition-opacity">Ocultar</span></h2></div><ul class="flex flex-col gap-px"><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/d5c90957-827a-4f0b-8fef-b0541e83fd2f" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden !bg-bg-300 active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item" aria-current="page"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%] [mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)]">Proyecto foodtrack-db: SQL y DBeaver desde cero</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 block opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Proyecto foodtrack-db: SQL y DBeaver desde cero" id="radix-_r_j_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/bcf9b3fd-2d0b-4654-800c-c7601ed2ba87" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Verificar instalación de SQL</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Verificar instalación de SQL" id="radix-_r_n_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/046fedaf-b7eb-4a6e-aa26-dcd16cb45c3a" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Identificar tipografía de fábrica de helados</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Identificar tipografía de fábrica de helados" id="radix-_r_r_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/a91ad43d-7917-421b-90c6-affd04a7513b" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Diseño de contenido Instagram con kit de marca</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Diseño de contenido Instagram con kit de marca" id="radix-_r_v_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/a60093e7-68b4-4eaf-b39b-dc09ca021f12" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Reactivar productora con equipo multidisciplinario</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Reactivar productora con equipo multidisciplinario" id="radix-_r_13_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/1a635108-6845-4e73-8037-95c5156b9b63" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Reactivar productora con equipo multidisciplinario</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Reactivar productora con equipo multidisciplinario" id="radix-_r_17_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/66e45b90-174d-4696-8779-f0bba3e1e8ab" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Estrategia de contenido y branding para productora audiovisual</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Estrategia de contenido y branding para productora audiovisual" id="radix-_r_1b_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/ec396d35-3aa8-47fc-8faf-20154d1dc99b" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Estrategia de contenido y branding para productora audiovisual</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Estrategia de contenido y branding para productora audiovisual" id="radix-_r_1f_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/13f811d3-a471-4419-9e6b-45bd0dd48536" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Estrategia de contenido y branding para productora audiovisual</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Estrategia de contenido y branding para productora audiovisual" id="radix-_r_1j_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/4a2f03f8-755b-454f-8116-b6799f158d66" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Estrategia de contenido para productora en Instagram</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Estrategia de contenido para productora en Instagram" id="radix-_r_1n_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/46e6f0f9-0ffa-4d62-92d8-2d30f3df67e1" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Diseño de carrusel para Instagram</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Diseño de carrusel para Instagram" id="radix-_r_1r_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/fc19c04e-5999-4244-adad-07bf3e799ed8" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Claude AI design</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Claude AI design" id="radix-_r_1v_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/50764d2b-4876-4b7a-9fb7-6c618f3caebd" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Plan nutricional para dálmata</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Plan nutricional para dálmata" id="radix-_r_23_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/77d7d5f5-fcb9-412b-b92b-d6566de19387" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Mejor alimento para dálmata adulto</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Mejor alimento para dálmata adulto" id="radix-_r_27_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/3e761bce-1ffe-4460-bad1-ecb61ac5affb" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Análisis integrado del mercado gastronómico de Miami</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Análisis integrado del mercado gastronómico de Miami" id="radix-_r_2b_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/3f2d2265-b6c2-43dc-ac76-c6189462855c" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Script de scraping en Wikipedia con Selenium</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Script de scraping en Wikipedia con Selenium" id="radix-_r_2f_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/d69b98c6-f2e7-4498-933d-bdab83ba451c" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Interpretación de promedios de gasto en comida</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Interpretación de promedios de gasto en comida" id="radix-_r_2j_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/f9386c57-8b92-4bd5-bb7a-5ffa61fbc26b" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Arreglar código de distribución alimenticia</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Arreglar código de distribución alimenticia" id="radix-_r_2n_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/ee765510-d81a-4239-bc93-4147c6844af8" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Corrección de notebooks para proyecto con API Yelp</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Corrección de notebooks para proyecto con API Yelp" id="radix-_r_2r_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/d6ee73d9-9d02-44c9-8130-ebc840ebb59d" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Astrología y predicción: ¿realidad o azar?</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Astrología y predicción: ¿realidad o azar?" id="radix-_r_2v_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/54add9b1-f733-436b-813e-c60f6fc9326b" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Despertar espiritual y conexión con el más allá</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Despertar espiritual y conexión con el más allá" id="radix-_r_33_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/af03c16f-61c6-46ff-9780-21eb27f092f9" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Cómo hacer el display</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Cómo hacer el display" id="radix-_r_37_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/4d5cc8f0-0843-406e-ac9e-9d69a85ed9d9" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Error de sintaxis en ruta de archivo CSV</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Error de sintaxis en ruta de archivo CSV" id="radix-_r_3b_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/04b7aa52-34ad-44c0-93d9-cbaadf38931c" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Error de columna faltante en pandas</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Error de columna faltante en pandas" id="radix-_r_3f_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/bd205d6d-9007-43c9-8b75-b7c605e04264" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Recuperar cuenta de Epic Games</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Recuperar cuenta de Epic Games" id="radix-_r_3j_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/f5a0adef-060f-42f2-bf61-20ade3c43363" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Resolver error de archivo CSV no encontrado</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Resolver error de archivo CSV no encontrado" id="radix-_r_3n_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/994212e7-6345-4efa-8644-e13189c19d01" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Diagrama de barras por ciudad en Python</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Diagrama de barras por ciudad en Python" id="radix-_r_3r_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/39716cb6-f5da-41de-b244-04bcf53e247c" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">JSONDecodeError in requests library</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para JSONDecodeError in requests library" id="radix-_r_3v_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/eff2e30b-8260-4db1-bbfe-8a955edad42c" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Código de API de Yelp no funciona</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Código de API de Yelp no funciona" id="radix-_r_43_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li><li style="opacity: 1;"><div class="relative group" data-state="closed"><a href="https://claude.ai/chat/94a392be-ccf0-4610-b27d-36cd6bf00f9a" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-chat-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><span class="truncate text-sm whitespace-nowrap flex-1 group-hover:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] group-focus-within:[mask-image:linear-gradient(to_right,hsl(var(--always-black))_78%,transparent_95%)] [mask-size:100%_100%]">Conexión a API de Yelp en módulo 2</span></div></a><div class="absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-150 hidden group-hover:block group-focus-within:block opacity-0 group-hover:opacity-100 group-focus-within:opacity-100"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md active:!scale-100 aria-expanded:!bg-bg-400 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Más opciones para Conexión a API de Yelp en módulo 2" id="radix-_r_47_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M4.5 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3m5.5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3"></path></svg></div></button></div></div></li></ul><div class="relative group" data-state="closed"><a href="https://claude.ai/recents" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" data-dd-action-name="sidebar-more-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256" class="shrink-0 "><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm12-88a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,128Zm-88,0a12,12,0,1,1-12-12A12,12,0,0,1,96,128Z"></path></svg><span class="truncate text-sm whitespace-nowrap flex-1">Todos los chats</span></div></a></div></div></div></div><div class="absolute inset-0 cursor-pointer"></div></div></div><div class="px-2"><div class="relative"><div class="relative group" data-state="closed"><a href="https://claude.ai/downloads" class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs w-full !min-w-0 group py-1.5 rounded-lg px-4 !duration-75 overflow-hidden active:bg-bg-300 active:scale-[1.0] _fill_10ocf_9 _ghost_10ocf_96" aria-label="Obtener aplicaciones y extensiones" data-dd-action-name="sidebar-nav-item"><div class="-translate-x-2 w-full flex flex-row items-center justify-start gap-3"><div class="flex items-center justify-center text-text-100"><div class="group" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group" aria-hidden="true" style="flex-shrink: 0;"><path class="group-hover:translate-y-[1px] transition" d="M10 3C10.2761 3 10.5 3.22386 10.5 3.5V12.1855L13.626 8.66797C13.8094 8.46166 14.1256 8.44275 14.332 8.62598C14.5383 8.80936 14.5573 9.12563 14.374 9.33203L10.374 13.832L10.2949 13.9033C10.21 13.9654 10.107 14 10 14C9.85718 14 9.72086 13.9388 9.62598 13.832L5.62598 9.33203L5.56738 9.25C5.45079 9.04872 5.48735 8.78653 5.66797 8.62598C5.84854 8.46567 6.1127 8.46039 6.29883 8.59961L6.37402 8.66797L9.5 12.1855V3.5C9.5 3.22386 9.72386 3 10 3Z"></path><path class="group-hover:translate-x-[0.5px] transition" d="M3.5 13C3.22386 13 3 13.2239 3 13.5V15.5C3 16.3284 3.67157 17 4.5 17H10V16H4.5C4.22386 16 4 15.7761 4 15.5V13.5C4 13.2239 3.77614 13 3.5 13Z"></path><path class="group-hover:-translate-x-[0.5px] transition" d="M16.5 13C16.7761 13 17 13.2239 17 13.5V15.5C17 16.3284 16.3284 17 15.5 17H10V16H15.5C15.7761 16 16 15.7761 16 15.5V13.5C16 13.2239 16.2239 13 16.5 13Z"></path></svg></div></div><span class="truncate text-sm whitespace-nowrap flex-1"><span></span></span></div></a></div><span class="absolute top-0.5 right-1 pointer-events-none"><span class="relative flex size-2" aria-hidden="true"><span class="absolute inline-flex h-full w-full animate-ping motion-reduce:animate-none rounded-full bg-accent-100 opacity-75"></span><span class="relative inline-flex size-2 rounded-full bg-accent-100"></span></span></span></div></div><div class="flex items-center gap-2 transition border-t-0.5 border-transparent"><div class="flex-1 min-w-0"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-9 px-4 py-2 rounded-lg min-w-[5rem] whitespace-nowrap !scale-100 flex-row !min-w-0 w-full rounded-none group px-2 !-outline-offset-2 transition-[gap] duration-150 ease-out gap-0 !bg-transparent !py-6 my-2 [&amp;:has(.downloads-link:hover)]:!bg-transparent _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="user-menu-button" aria-label="Mafe, Configuración" tabindex="0" aria-haspopup="menu" aria-expanded="false" id="_r_4d_"><div class="relative flex-shrink-0"><div class="relative flex-shrink-0"><div class="flex items-center justify-center rounded-full text-text-200 border-0.5 border-transparent group-hover:border-border-200 transition group-hover:opacity-90"><div class="flex shrink-0 items-center justify-center rounded-full font-bold select-none h-9 w-9 text-[16px] bg-text-200 text-bg-100">M</div></div></div></div><div class="opacity-0 transition-opacity ease-out duration-150 flex flex-1 text-sm justify-between items-center font-medium min-w-0"><div class="flex flex-col items-start min-w-0 flex-1 pr-1"><span class="w-full text-start block truncate">Mafe</span><span class="w-full truncate text-xs text-text-500 font-normal text-start">Plan gratuito</span></div><div class="flex items-center gap-2 flex-shrink-0 overflow-visible"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 256 256" class="flex-shrink-0"><path d="M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z"></path></svg></div></div></button></div></div></div></nav></div></div><div id="main-content" class="w-full relative min-w-0 h-full" style="padding: 0px;"><div class="flex flex-1 h-full w-full overflow-hidden max-md:relative md:-mt-[var(--df-header-h,0px)] md:h-[calc(100%+var(--df-header-h,0px))]"><div class="h-full flex flex-col overflow-hidden md:pt-[var(--df-header-h,0px)]" style="flex: 100 1 0%;"><header class="flex w-full bg-bg-100 sticky top-0 z-header h-12 -mb-3" aria-hidden="false" data-testid="page-header" style="height: 48px;"><div class="from-bg-100 via-bg-100 via-65% to-bg-100/0 pointer-events-none absolute inset-0 -bottom-5 z-[-1] bg-gradient-to-b blur-sm"></div><div class="flex w-full items-center justify-between gap-4 pl-11 lg:px-8 gap-6 p-3 lg:pl-4 lg:pr-3 pr-3"><div class="flex min-w-0 md:items-center font-base-bold flex-1 pr-[100px]"><div class="flex min-w-0 shrink-1 items-center group -ml-1"><div class="flex min-w-0 items-center group [&amp;:hover&gt;button]:!bg-bg-300 [&amp;&gt;button:hover]:!bg-bg-500"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-9 px-4 py-2 rounded-lg min-w-[5rem] whitespace-nowrap !text-text-300 hover:!text-text-100 !shrink !min-w-0 !px-1 !py-0 !scale-100 !h-7 !rounded-r-none active:!bg-bg-500 _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="chat-title-button" aria-label="Proyecto foodtrack-db: SQL y DBeaver desde cero, renombrar chat"><div class="min-w-0 flex-1"><div class="truncate font-base-bold">Proyecto foodtrack-db: SQL y DBeaver desde cero</div></div></button><div class="w-[1.5px] h-7"></div><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md !h-7 !w-5 !min-w-0 !rounded-l-none !text-text-300 hover:!text-text-100 active:!bg-bg-500 _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="chat-menu-trigger" aria-label="Más opciones para Proyecto foodtrack-db: SQL y DBeaver desde cero" id="radix-_r_a8_" aria-haspopup="menu" aria-expanded="false" data-state="closed"><div style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M14.128 7.165a.502.502 0 0 1 .744.67l-4.5 5-.078.07a.5.5 0 0 1-.666-.07l-4.5-5-.06-.082a.501.501 0 0 1 .729-.656l.075.068L10 11.752z"></path></svg></div></button></div></div></div><div class="right-3 flex gap-2"></div><div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div class="flex w-full h-12 items-center justify-center pointer-events-none"><div class="ml-0.5 inline-flex items-center gap-1.5 rounded-lg h-8 pl-2 pr-2.5 text-center font-small sm:font-base text-text-500 select-none transition-opacity duration-150 pointer-events-auto bg-bg-300">Plan gratuito<div class="size-[3px] bg-text-500/30 rounded-full mt-0.5"></div><span><a href="https://claude.ai/upgrade" class="inline underline underline-offset-[3px] [&amp;:not(:is(:hover,:focus))]:decoration-[color-mix(in_srgb,currentColor,transparent_60%)] cursor-pointer">Actualizar</a></span><button type="button" aria-label="Descartar el banner de actualización" class="ml-1 -mr-1 flex size-5 items-center justify-center rounded hover:bg-bg-400 transition-colors"><div style="width: 14px; height: 14px; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.147 4.146a.5.5 0 0 1 .707.707L10.707 10l5.147 5.147a.5.5 0 0 1-.63.771l-.078-.064L10 10.707l-5.146 5.147a.5.5 0 0 1-.708-.707L9.293 10 4.146 4.853a.5.5 0 0 1 .708-.707L10 9.293z"></path></svg></div></button></div></div></div></div></header><div class="overflow-y-auto overflow-x-hidden [scrollbar-gutter:stable] pt-6 flex-1" data-autoscroll-container="true"><div class="relative w-full min-h-full flex flex-col"><div class="mx-auto flex w-full flex-1 flex-col max-w-3xl md:px-2"><div role="status" class="sr-only">Claude ha terminado la respuesta</div><div class="flex-1 flex flex-col px-4 max-w-3xl mx-auto w-full pt-1"><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Hola Claude!</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: 200px; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Hola Claude! YA EMPEZAMOS el segundo modulo de mi curso de data analisis necesito  tu ayuda porq NO ENTIENDO NADA , solo instale el sql y el dbeaver y me manda a realizar mi primer proyecto con estas herramientas que no tengo idea como se usan. explicame paso modo profesor para una principiante sin ningun conocimento. Repositorio en GitHub</p><ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-2.5 pl-7"><li class="whitespace-normal break-words">Crear un repositorio público llamado foodtrack-db.</li><li class="whitespace-normal break-words">Agregar un archivo README.md con una breve descripción del caso.Diseño y creación del esquema
+ <ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-2.5 pl-7"><li class="whitespace-normal break-words">Analizar los archivos .csv proporcionados:
+ <ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-2.5 pl-7"><li class="whitespace-normal break-words">__[foodtrucks.csv](<a href="https://drive.google.com/file/d/166I5YYpbzpJPl6aBcB5vyLNGcZFmUP6o/view?usp=drive_link)__[(opens" target="_blank" class="underline">https://drive.google.com/file/d/166I5YYpbzpJPl6aBcB5vyLNGcZFmUP6o/view?usp=drive_link)__[(opens</a> in a new tab)](<a href="https://drive.google.com/file/d/166I5YYpbzpJPl6aBcB5vyLNGcZFmUP6o/view?usp=drive_link" target="_blank" class="underline">https://drive.google.com/file/d/166I5YYpbzpJPl6aBcB5vyLNGcZFmUP6o/view?usp=drive_link</a>)</li><li class="whitespace-normal break-words">__[products.csv](<a href="https://drive.google.com/file/d/1Qj3himH9yNbYtmXc2hjJ8gQMK-gHBGmh/view?usp=drive_link)__[(opens" target="_blank" class="underline">https://drive.google.com/file/d/1Qj3himH9yNbYtmXc2hjJ8gQMK-gHBGmh/view?usp=drive_link)__[(opens</a> in a new tab)](<a href="https://drive.google.com/file/d/1Qj3himH9yNbYtmXc2hjJ8gQMK-gHBGmh/view?usp=drive_link" target="_blank" class="underline">https://drive.google.com/file/d/1Qj3himH9yNbYtmXc2hjJ8gQMK-gHBGmh/view?usp=drive_link</a>)</li><li class="whitespace-normal break-words">__[orders.csv](<a href="https://drive.google.com/file/d/1jJr6J3Zk-yuNlgb2ANKdUgFkM9yByzz6/view?usp=drive_link)__[(opens" target="_blank" class="underline">https://drive.google.com/file/d/1jJr6J3Zk-yuNlgb2ANKdUgFkM9yByzz6/view?usp=drive_link)__[(opens</a> in a new tab)](<a href="https://drive.google.com/file/d/1jJr6J3Zk-yuNlgb2ANKdUgFkM9yByzz6/view?usp=drive_link" target="_blank" class="underline">https://drive.google.com/file/d/1jJr6J3Zk-yuNlgb2ANKdUgFkM9yByzz6/view?usp=drive_link</a>)</li><li class="whitespace-normal break-words">__[order_items.csv](<a href="https://drive.google.com/file/d/1Ot452DRnsG4x_bvc6Jl3EXhQvDbIN4pn/view?usp=drive_link)__[(opens" target="_blank" class="underline">https://drive.google.com/file/d/1Ot452DRnsG4x_bvc6Jl3EXhQvDbIN4pn/view?usp=drive_link)__[(opens</a> in a new tab)](<a href="https://drive.google.com/file/d/1Ot452DRnsG4x_bvc6Jl3EXhQvDbIN4pn/view?usp=drive_link" target="_blank" class="underline">https://drive.google.com/file/d/1Ot452DRnsG4x_bvc6Jl3EXhQvDbIN4pn/view?usp=drive_link</a>)</li><li class="whitespace-normal break-words">__[locations.csv](<a href="https://drive.google.com/file/d/1TfoUj4tNLIc5pp0Vy2XwZoMarxaibK8p/view?usp=drive_link)__[(opens" target="_blank" class="underline">https://drive.google.com/file/d/1TfoUj4tNLIc5pp0Vy2XwZoMarxaibK8p/view?usp=drive_link)__[(opens</a> in a new tab)](<a href="https://drive.google.com/file/d/1TfoUj4tNLIc5pp0Vy2XwZoMarxaibK8p/view?usp=drive_link" target="_blank" class="underline">https://drive.google.com/file/d/1TfoUj4tNLIc5pp0Vy2XwZoMarxaibK8p/view?usp=drive_link</a>)</li></ul></li><li class="whitespace-normal break-words">Diseñar el modelo relacional a partir de los datos.</li><li class="whitespace-normal break-words">Crear las tablas necesarias en SQL Server (a través de DBeaver):
+ <ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-2.5 pl-7"><li class="whitespace-normal break-words">foodtrucks, products, orders, order_items, locations</li></ul></li><li class="whitespace-normal break-words">Establecer claves primarias, foráneas y restricciones (NOT NULL, UNIQUE, etc.).</li><li class="whitespace-normal break-words">Guardar los scripts .sql en una carpeta /scripts/. paso 3 Control de versiones con Git/GitHub
+ <ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-2.5 pl-7"><li class="whitespace-normal break-words">Hacer un commit por cada avance estructural: creación de tablas, relaciones, cambios.</li><li class="whitespace-normal break-words">Subir los cambios a GitHub (push).</li><li class="whitespace-normal break-words">Utilizar mensajes de commit descriptivos. paso 4 Evolución del esquema
+ <ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-2.5 pl-7"><li class="whitespace-normal break-words">Realizar una modificación estructural:
+ <ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-2.5 pl-7"><li class="whitespace-normal break-words">Ejemplo: agregar una columna comentarios en orders, o eliminar stock en products.</li></ul></li><li class="whitespace-normal break-words">Versionar el cambio con un nuevo commit. paso 5 Organización del proyecto
+Estructura mínima esperada en el repositorio: /scripts/ → scripts SQL del esquema
+/data/ → archivos CSV utilizados
+README.md → descripción general del proyecto y del modelo   OBVIO VAMOS PASO A PASO TE MENDE TODO PARA QUE TENGAS IDEA QUE ESTAMOS HABKANDO Y LA MAGNITUD DEL PROYECTO PERO VAMOS PUNTO POR PUNTO SIN AVANZAR HASTA ENTENDER</li></ul></li></ul></li></ul></li></ul><div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-bg-300 to-transparent pointer-events-none"></div></div><button class="pb-3 pt-1 text-xs text-text-500/80 hover:text-text-100 transition w-3/4 text-left rounded-lg">Mostrar más</button></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Hola Mafe!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Hola Mafe! 🎉 Bienvenida al Módulo 2</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Tranquila, vamos paso a paso y no avanzamos hasta que entiendas todo. Antes de tocar nada, déjame explicarte el panorama general para que sepas <strong>qué estás construyendo y por qué</strong>.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿De qué trata este proyecto?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Vas a crear una <strong>base de datos relacional</strong> para un sistema de Food Trucks. Imaginate que tenés varios food trucks que venden productos, reciben pedidos en distintas ubicaciones... todo eso hay que guardarlo de forma organizada en una base de datos.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Los archivos <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">.csv</code> que te dieron son como "tablas de Excel" con datos reales. Tu trabajo es:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Entender esos datos</li>
+<li class="whitespace-normal break-words pl-2">Diseñar cómo se relacionan entre sí</li>
+<li class="whitespace-normal break-words pl-2">Crear la base de datos en SQL Server usando DBeaver</li>
+<li class="whitespace-normal break-words pl-2">Subir todo a GitHub con buenas prácticas</li>
+</ol>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Las herramientas que instalaste — ¿qué hace cada una?</h3>
+<div class="overflow-x-auto w-full px-2 mb-6"><table class="min-w-full border-collapse text-sm leading-[1.7] whitespace-normal"><thead class="text-left"><tr><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Herramienta</th><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Para qué sirve</th><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Analogía</th></tr></thead><tbody><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><strong>SQL Server</strong></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Es el motor que guarda y administra los datos</td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Es como el "Excel gigante" que vive en tu computadora</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><strong>DBeaver</strong></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Es la interfaz visual para hablar con SQL Server</td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Es como el "Word" que usás para escribirle instrucciones a SQL Server</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><strong>Git/GitHub</strong></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Guarda el historial de tus cambios</td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Como el "historial de versiones" de Google Docs, pero profesional</td></tr></tbody></table></div>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Por dónde empezamos?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">El <strong>Paso 1</strong> es crear el repositorio en GitHub. Es lo más sencillo y nos permite tener todo organizado desde el principio.</p>
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">Antes de hacer eso, necesito saber:</h4>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Ya tenés cuenta en GitHub? ¿Y Git instalado en tu computadora?</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Respondeme eso y arrancamos con el Paso 1 juntas 🚀</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Genial toda la explicaion!</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Genial toda la explicaion! vamos con este ritmo de explicaion excelente.  Si tengo cuenta de Github</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">Perfecto! Vamos con el Paso 1 🚀</h2>
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Primero — ¿Tenés Git instalado?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Antes de crear el repositorio, necesitamos verificar que Git esté funcionando en tu computadora.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Abrí una terminal</strong> (en Windows se llama "Command Prompt" o "PowerShell") y escribí este comando:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git --version</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Te tiene que aparecer algo así:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git version 2.xx.x.windows.x</span></span></code></pre></div></div>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">¿Cómo abrir la terminal en Windows?</h4>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Presioná las teclas <strong>Windows + R</strong></li>
+<li class="whitespace-normal break-words pl-2">Escribí <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">cmd</code> y presioná Enter</li>
+<li class="whitespace-normal break-words pl-2">Se abre una ventana negra — ahí escribís el comando</li>
+</ol>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame lo que te aparece cuando ejecutás <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">git --version</code> y seguimos 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Microsoft Windows [Versión 10.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Microsoft Windows [Versión 10.0.26200.8328]
+(c) Microsoft Corporation. Todos los derechos reservados.
+C:\Users\mafe6&gt;git --version
+git version 2.54.0.windows.1
+C:\Users\mafe6&gt;</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Perfecto! Git está instalado ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">git version 2.54.0.windows.1</code> — todo en orden, podemos continuar.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Paso 1 — Crear el repositorio en GitHub</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hacé esto en el navegador:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Entrá a <strong>github.com</strong> e iniciá sesión</li>
+<li class="whitespace-normal break-words pl-2">Hacé clic en el botón verde <strong>"New"</strong> (arriba a la izquierda) o en el <strong>"+"</strong> arriba a la derecha → <em>New repository</em></li>
+<li class="whitespace-normal break-words pl-2">Completá el formulario así:</li>
+</ol>
+<div class="overflow-x-auto w-full px-2 mb-6"><table class="min-w-full border-collapse text-sm leading-[1.7] whitespace-normal"><thead class="text-left"><tr><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Campo</th><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Qué poner</th></tr></thead><tbody><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><strong>Repository name</strong></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack-db</code></td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><strong>Description</strong></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">Base de datos relacional para sistema de Food Trucks</code></td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><strong>Public/Private</strong></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">✅ Public</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><strong>Add a README file</strong></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">✅ Tildalo</td></tr></tbody></table></div>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3" start="4">
+<li class="whitespace-normal break-words pl-2">Dejá todo lo demás como está</li>
+<li class="whitespace-normal break-words pl-2">Hacé clic en <strong>"Create repository"</strong></li>
+</ol>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">¿Qué acabás de crear?</h4>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Un repositorio es como una <strong>carpeta en la nube</strong> donde va a vivir todo tu proyecto — los scripts SQL, los archivos CSV, el README. GitHub guarda además el historial de cada cambio que hagas.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Cuando lo tengas creado, <strong>pegame el link del repositorio</strong> (algo como <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">https://github.com/tu-usuario/foodtrack-db</code>) y seguimos con el siguiente paso 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: https://github.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words"><a href="https://github.com/MafeLopezQuintana/foodtrack-db" target="_blank" class="underline">https://github.com/MafeLopezQuintana/foodtrack-db</a></p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Repositorio creado!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Repositorio creado! ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Lo vi perfecto — <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack-db</code> público, con README.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora hay que "bajarlo" a tu computadora</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Esto se llama <strong>clonar</strong> el repositorio. Significa crear una copia local en tu PC que está conectada con GitHub.</p>
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">En la terminal, ejecutá estos comandos uno por uno:</h4>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Primero — ir a una carpeta donde quieras guardar el proyecto</strong> (por ejemplo, en Documentos):</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>cd Documents</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Segundo — clonar el repositorio:</strong></p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git clone https://github.com/MafeLopezQuintana/foodtrack-db</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Tercero — entrar a la carpeta que se creó:</strong></p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>cd foodtrack-db</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Cuarto — verificar que estás dentro:</strong></p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>dir</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Te tiene que aparecer el archivo <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">README.md</code> en la lista.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">¿Qué hace <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">git clone</code>?</h4>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Descarga todo el contenido del repositorio de GitHub a tu computadora y además <strong>establece la conexión</strong> entre tu carpeta local y GitHub. Así cuando hagas cambios, podés subirlos con un simple comando.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá los comandos y pegame lo que aparece en la terminal 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: no enteindo donde tengo que hacer esto- En la terminal, ejecutá estos comandos uno por uno:</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">no enteindo donde tengo que hacer esto- En la terminal, ejecutá estos comandos uno por uno:
+Primero — ir a una carpeta donde quieras guardar el proyecto (por ejemplo, en Documentos):</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Buena pregunta!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Buena pregunta! Vamos más despacio 😊</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">La terminal es como un "explorador de archivos" pero en texto</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Cuando abrís el Explorador de Windows hacés clic para moverte entre carpetas. En la terminal hacés lo mismo pero <strong>escribiendo comandos</strong>.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ahora mismo tu terminal está "parada" en:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>C:\Users\mafe6&gt;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Eso significa que estás en tu carpeta de usuario. Es como estar parada en esa carpeta en el Explorador.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ejecutá este único comando ahora:</h3>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>cd Documents</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">cd</code> significa <strong>"cambiar de carpeta"</strong> (change directory). Es como hacer doble clic en la carpeta Documentos.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Después del comando, la terminal debería mostrar:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>C:\Users\mafe6\Documents&gt;</span></span></code></pre></div></div>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Escribí <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">cd Documents</code> y Enter, y pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: en que terminal donde es que programa no entiendo</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">en que terminal donde es que programa no entiendo</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Ah, perdón!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Ah, perdón! Me salté ese paso 😄</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">La terminal es este programa 👇</h3></div></div><div><div class="ease-out transition-all flex flex-col font-ui leading-normal my-3 min-h-[2.625rem] overflow-hidden border-0.5  border-border-300 rounded-lg hover:bg-bg-200 mt-3 mb-2" style="opacity: 1;"><div class="group/row flex flex-row items-center justify-between gap-4 rounded-lg text-text-300 h-[2.625rem] py-2 px-3 cursor-default"><div class="flex flex-row items-center gap-2 min-w-0"><div class="w-5 h-5 flex items-center justify-center text-text-100"><div class="shrink-0 bg-bg-000 border-border-300 border-0.5 shadow-sm flex items-center justify-center !border-0 !shadow-none !bg-transparent" style="width: 16px; height: 16px; border-radius: 4.32px;"><div class="shrink-0 flex items-center justify-center bg-bg-000 text-text-300 font-medium border-0.5 border-border-300 shadow-[0_0.8px_1.6px_0_hsl(var(--always-black)/5%)]" style="width: 16px; height: 16px; font-size: 10.4px; border-radius: 4.8px;"><p class="font-ui shrink-0 leading-tight">V</p></div></div></div><div class="flex gap-2 relative bottom-[0.5px] font-base text-left leading-tight overflow-hidden overflow-ellipsis whitespace-nowrap flex-grow text-text-300">Conectando a visualize...</div></div><div class="flex flex-row items-center gap-1.5 min-w-0 shrink-0"></div></div></div></div><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Ya la tenés abierta?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Si ya la abriste antes (cuando escribiste <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">git --version</code>), <strong>esa misma ventana sirve</strong>. No la cerraste, ¿verdad?</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Si la cerraste, abrila de nuevo con <strong>Win + R → escribí <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">cmd</code> → Enter</strong>.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Una vez que la tenés abierta, escribí esto y Enter:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>cd Documents</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Microsoft Windows [Versión 10.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Microsoft Windows [Versión 10.0.26200.8328]
+(c) Microsoft Corporation. Todos los derechos reservados.
+C:\Users\mafe6&gt;cd Documents
+C:\Users\mafe6\Documents&gt;</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">Perfecto! Estás dentro de Documentos ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ahora ejecutá este comando para descargar el repositorio a tu computadora:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git clone https://github.com/MafeLopezQuintana/foodtrack-db</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Microsoft Windows [Versión 10.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Microsoft Windows [Versión 10.0.26200.8328]
+(c) Microsoft Corporation. Todos los derechos reservados.
+C:\Users\mafe6&gt;cd Documents
+C:\Users\mafe6\Documents&gt;git clone <a href="https://github.com/MafeLopezQuintana/foodtrack-db" target="_blank" class="underline">https://github.com/MafeLopezQuintana/foodtrack-db</a>
+Cloning into 'foodtrack-db'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (3/3), done.
+C:\Users\mafe6\Documents&gt;</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Repositorio clonado exitosamente!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Repositorio clonado exitosamente! ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Eso significa que GitHub descargó la carpeta a tu computadora. Ahora entrá a ella:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>cd foodtrack-db</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Y luego verificá qué hay adentro:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>dir</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: C:\Users\mafe6\Documents&gt;cd foodtrack-db</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">C:\Users\mafe6\Documents&gt;cd foodtrack-db
+C:\Users\mafe6\Documents\foodtrack-db&gt;dir
+ El volumen de la unidad C no tiene etiqueta.
+ El número de serie del volumen es: E438-E3D3
+ Directorio de C:\Users\mafe6\Documents\foodtrack-db
+06/05/2026  12:07    &lt;DIR&gt;          .
+06/05/2026  12:07    &lt;DIR&gt;          ..
+06/05/2026  12:07                70 README.md
+               1 archivos             70 bytes
+               2 dirs  156.279.123.968 bytes libres
+C:\Users\mafe6\Documents\foodtrack-db&gt;</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Todo perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Todo perfecto! ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ves el <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">README.md</code> — es el archivo que se creó automáticamente en GitHub. La carpeta está conectada y lista.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora creamos la estructura de carpetas del proyecto</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">El proyecto necesita dos carpetas adentro:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">/scripts/</code> → donde van a vivir los archivos <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">.sql</code></li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">/data/</code> → donde van los archivos <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">.csv</code></li>
+</ul>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá estos dos comandos uno por uno:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>mkdir scripts</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>mkdir data</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Después verificá con:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>dir</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Deberías ver las dos carpetas nuevas. Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: C:\Users\mafe6\Documents\foodtrack-db&gt;mkdir scripts</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: 200px; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">C:\Users\mafe6\Documents\foodtrack-db&gt;mkdir scripts
+C:\Users\mafe6\Documents\foodtrack-db&gt;mkdir data
+C:\Users\mafe6\Documents\foodtrack-db&gt;dir
+ El volumen de la unidad C no tiene etiqueta.
+ El número de serie del volumen es: E438-E3D3
+ Directorio de C:\Users\mafe6\Documents\foodtrack-db
+06/05/2026  12:09    &lt;DIR&gt;          .
+06/05/2026  12:07    &lt;DIR&gt;          ..
+06/05/2026  12:09    &lt;DIR&gt;          data
+06/05/2026  12:07                70 README.md
+06/05/2026  12:08    &lt;DIR&gt;          scripts
+               1 archivos             70 bytes
+               4 dirs  156.282.920.960 bytes libres
+C:\Users\mafe6\Documents\foodtrack-db&gt;</p><div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-bg-300 to-transparent pointer-events-none"></div></div><button class="pb-3 pt-1 text-xs text-text-500/80 hover:text-text-100 transition w-3/4 text-left rounded-lg">Mostrar más</button></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Estructura creada perfectamente!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Estructura creada perfectamente! ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Tenés esto en tu carpeta:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>foodtrack-db/
+</span></span><span>├── README.md
+</span><span>├── scripts/     ← acá van los .sql
+</span><span>└── data/        ← acá van los .csv</span></code></pre></div></div>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora hacemos el primer commit</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Un <strong>commit</strong> es como sacarle una foto al estado actual de tu proyecto. Git guarda ese momento para siempre, y podés volver a él cuando quieras.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá estos comandos uno por uno:</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>1. Decirle a Git "mirá todos los cambios nuevos":</strong></p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git add .</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>2. Sacar la foto con un mensaje descriptivo:</strong></p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git commit -m "Estructura inicial del proyecto: carpetas scripts y data"</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>3. Subir los cambios a GitHub:</strong></p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git push</span></span></code></pre></div></div>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">¿Qué hace cada uno?</h4>
+<div class="overflow-x-auto w-full px-2 mb-6"><table class="min-w-full border-collapse text-sm leading-[1.7] whitespace-normal"><thead class="text-left"><tr><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Comando</th><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Analogía</th></tr></thead><tbody><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">git add .</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Seleccionás todo lo que querés fotografiar</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">git commit -m "..."</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Sacás la foto con una descripción</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">git push</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Subís la foto a GitHub</td></tr></tbody></table></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutalos y pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: C:\Users\mafe6\Documents\foodtrack-db&gt;git add .</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">C:\Users\mafe6\Documents\foodtrack-db&gt;git add .
+C:\Users\mafe6\Documents\foodtrack-db&gt;git commit -m "Estructura inicial del proyecto: carpetas scripts y data"
+Author identity unknown
+*** Please tell me who you are.
+Run
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+fatal: unable to auto-detect email address (got 'mafe6@MFLQ.(none)')
+C:\Users\mafe6\Documents\foodtrack-db&gt;</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Git necesita saber quién sos — normal la primera vez!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">Git necesita saber quién sos — normal la primera vez! 🙂</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Esto pasa una sola vez. Git necesita tu nombre y email para identificar quién hace cada commit.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá estos dos comandos con <strong>tus datos reales de GitHub</strong>:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git config --global user.email "tu-email@gmail.com"</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git config --global user.name "MafeLopezQuintana"</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Reemplazá <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">tu-email@gmail.com</code> por el email con el que te registraste en GitHub.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Después repetí el commit:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git commit -m "Estructura inicial del proyecto: carpetas scripts y data"</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Y luego subí:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git push</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: C:\Users\mafe6\Documents\foodtrack-db&gt;git config --global user.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">C:\Users\mafe6\Documents\foodtrack-db&gt;git config --global user.email "mflopezquintana@gmail.com"
+C:\Users\mafe6\Documents\foodtrack-db&gt;git config --global user.name "MafeLopezQuintana"
+C:\Users\mafe6\Documents\foodtrack-db&gt;git commit -m "Estructura inicial del proyecto: carpetas scripts y data"
+On branch main
+Your branch is up to date with 'origin/main'.
+nothing to commit, working tree clean
+C:\Users\mafe6\Documents\foodtrack-db&gt;git push
+Everything up-to-date
+C:\Users\mafe6\Documents\foodtrack-db&gt;</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Todo está al día ✅</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">Todo está al día ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Dice "nothing to commit" porque Git notó que las carpetas vacías no cuentan como cambios. Git no rastrea carpetas vacías, solo archivos.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">No hay problema — la solución es simple</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hay una convención en Git: cuando querés guardar una carpeta vacía, se crea un archivo vacío llamado <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">.gitkeep</code> adentro. Es solo un "placeholder" para que Git la reconozca.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá estos dos comandos:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>echo. &gt; scripts\.gitkeep</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>echo. &gt; data\.gitkeep</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Luego los tres comandos de siempre:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git add .</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git commit -m "Estructura inicial del proyecto: carpetas scripts y data"</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>git push</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: C:\Users\mafe6\Documents\foodtrack-db&gt;git commit -m "Estructura inicial del proyecto: carpetas scripts y data"</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: 200px; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">C:\Users\mafe6\Documents\foodtrack-db&gt;git commit -m "Estructura inicial del proyecto: carpetas scripts y data"
+[main 4d8ddf2] Estructura inicial del proyecto: carpetas scripts y data
+ 2 files changed, 2 insertions(+)
+ create mode 100644 data/.gitkeep
+ create mode 100644 scripts/.gitkeep
+C:\Users\mafe6\Documents\foodtrack-db&gt;git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (4/4), 372 bytes | 372.00 KiB/s, done.
+Total 4 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To <a href="https://github.com/MafeLopezQuintana/foodtrack-db" target="_blank" class="underline">https://github.com/MafeLopezQuintana/foodtrack-db</a>
+   fe06177..4d8ddf2  main -&gt; main
+C:\Users\mafe6\Documents\foodtrack-db&gt;</p><div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-bg-300 to-transparent pointer-events-none"></div></div><button class="pb-3 pt-1 text-xs text-text-500/80 hover:text-text-100 transition w-3/4 text-left rounded-lg">Mostrar más</button></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Primer commit subido a GitHub!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Primer commit subido a GitHub! 🎉</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Fijate lo que pasó:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Git creó una "foto" con ID <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">4d8ddf2</code></li>
+<li class="whitespace-normal break-words pl-2">Subió los cambios a GitHub (<code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">main -&gt; main</code>)</li>
+<li class="whitespace-normal break-words pl-2">Tus carpetas <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">scripts/</code> y <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">data/</code> ya están visibles en el repositorio</li>
+</ul>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Verificá en GitHub</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Entrá a <strong>github.com/MafeLopezQuintana/foodtrack-db</strong> y deberías ver las dos carpetas ahí.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Dónde estamos parados?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">✅ Repositorio creado en GitHub<br>
+✅ Clonado a tu computadora<br>
+✅ Estructura de carpetas creada<br>
+✅ Primer commit y push</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">El siguiente paso es descargar los CSV</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Necesitás bajar los 5 archivos <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">.csv</code> que te dio el curso y guardarlos en la carpeta <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">data/</code> de tu proyecto.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Los archivos son:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrucks.csv</code></li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">products.csv</code></li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">orders.csv</code></li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">order_items.csv</code></li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">locations.csv</code></li>
+</ul>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Ya los tenés descargados en tu computadora, o los tenés que bajar todavía? 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: no los baje todavia</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">no los baje todavia</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Descargá los 5 archivos CSV</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Descargá los 5 archivos CSV</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Entrá a cada link y descargalos uno por uno:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><a class="underline underline underline-offset-2 decoration-1 decoration-current/40 hover:decoration-current focus:decoration-current" href="https://drive.google.com/file/d/166I5YYpbzpJPl6aBcB5vyLNGcZFmUP6o/view?usp=drive_link">foodtrucks.csv</a></li>
+<li class="whitespace-normal break-words pl-2"><a class="underline underline underline-offset-2 decoration-1 decoration-current/40 hover:decoration-current focus:decoration-current" href="https://drive.google.com/file/d/1Qj3himH9yNbYtmXc2hjJ8gQMK-gHBGmh/view?usp=drive_link">products.csv</a></li>
+<li class="whitespace-normal break-words pl-2"><a class="underline underline underline-offset-2 decoration-1 decoration-current/40 hover:decoration-current focus:decoration-current" href="https://drive.google.com/file/d/1jJr6J3Zk-yuNlgb2ANKdUgFkM9yByzz6/view?usp=drive_link">orders.csv</a></li>
+<li class="whitespace-normal break-words pl-2"><a class="underline underline underline-offset-2 decoration-1 decoration-current/40 hover:decoration-current focus:decoration-current" href="https://drive.google.com/file/d/1Ot452DRnsG4x_bvc6Jl3EXhQvDbIN4pn/view?usp=drive_link">order_items.csv</a></li>
+<li class="whitespace-normal break-words pl-2"><a class="underline underline underline-offset-2 decoration-1 decoration-current/40 hover:decoration-current focus:decoration-current" href="https://drive.google.com/file/d/1TfoUj4tNLIc5pp0Vy2XwZoMarxaibK8p/view?usp=drive_link">locations.csv</a></li>
+</ol>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">En cada link hacé esto:</h4>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">En Google Drive el botón de descarga está arriba a la derecha — ícono de flecha hacia abajo ⬇️</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h4 class="text-text-100 mt-2 -mb-1 text-base font-bold">Una vez descargados, movelos a la carpeta correcta</h4>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Abrí el <strong>Explorador de Windows</strong> y navegá hasta:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>C:\Users\mafe6\Documents\foodtrack-db\data\</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Copiá los 5 archivos <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">.csv</code> ahí adentro.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Avisame cuando los tengas en esa carpeta y seguimos 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: listo</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">listo</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Perfecto! Verificamos que estén todos</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">En la terminal ejecutá:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>dir data</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Deberías ver los 5 archivos <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">.csv</code>. Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: me sali sin querer de la terminal que pongo para empezar?</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">me sali sin querer de la terminal que pongo para empezar?</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"><div class="inline-flex items-center gap-1"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn !w-6 _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Versión anterior"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M13.24 3.072a.5.5 0 0 1 .667.718l-.067.076L7.233 10l6.607 6.134a.5.5 0 1 1-.68.732l-7-6.5-.068-.077a.5.5 0 0 1 .068-.655l7-6.5z"></path></svg></div></button><span class="self-center shrink-0 select-none font-small text-text-500">2 / 2</span><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn !w-6 _fill_10ocf_9 _ghost_10ocf_96" disabled="" type="button" aria-label="Siguiente versión"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M6.134 3.16a.5.5 0 0 1 .626-.088l.08.062 7 6.5a.5.5 0 0 1 .068.655l-.068.077-7 6.5a.5.5 0 1 1-.68-.732L12.767 10 6.16 3.866l-.067-.076a.5.5 0 0 1 .04-.63"></path></svg></div></button></div></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Sin problema!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Sin problema! Abrí la terminal de nuevo y ejecutá estos dos comandos:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>cd Documents\foodtrack-db</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>dir data</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: C:\Users\mafe6\Documents\foodtrack-db&gt;dir data</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: 200px; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">C:\Users\mafe6\Documents\foodtrack-db&gt;dir data
+ El volumen de la unidad C no tiene etiqueta.
+ El número de serie del volumen es: E438-E3D3
+ Directorio de C:\Users\mafe6\Documents\foodtrack-db\data
+06/05/2026  12:27    &lt;DIR&gt;          .
+06/05/2026  12:09    &lt;DIR&gt;          ..
+06/05/2026  12:14                 3 .gitkeep
+06/05/2026  12:19               112 foodtrucks.csv
+06/05/2026  12:26                88 locations.csv
+06/05/2026  12:21               109 orders.csv
+06/05/2026  12:22                82 order_items.csv
+06/05/2026  12:20               144 products.csv
+               6 archivos            538 bytes
+               2 dirs  157.410.775.040 bytes libres
+C:\Users\mafe6\Documents\foodtrack-db&gt;</p><div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-bg-300 to-transparent pointer-events-none"></div></div><button class="pb-3 pt-1 text-xs text-text-500/80 hover:text-text-100 transition w-3/4 text-left rounded-lg">Mostrar más</button></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Los 5 archivos están ahí!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Los 5 archivos están ahí! ✅</h2>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>foodtrucks.csv
+</span></span><span>locations.csv
+</span><span>orders.csv
+</span><span>order_items.csv
+</span><span>products.csv</span></code></pre></div></div>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Antes de seguir — vemos qué hay dentro de los CSV</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Esto es importante porque necesitamos <strong>entender los datos</strong> antes de diseñar la base de datos. Vamos a abrir cada archivo con el Bloc de Notas para ver su contenido.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá este comando para ver el contenido de cada uno:</p>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>type data\foodtrucks.csv</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>type data\products.csv</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>type data\orders.csv</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>type data\order_items.csv</span></span></code></pre></div></div>
+<div role="group" aria-label="Código" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre-wrap;"><span><span>type data\locations.csv</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegame todo lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: C:\Users\mafe6\Documents\foodtrack-db&gt;type data\foodtrucks.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: 200px; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">C:\Users\mafe6\Documents\foodtrack-db&gt;type data\foodtrucks.csv
+foodtruck_id,name,cuisine_type,city
+1,Taco Loco,Mexicana,Ciudad de M├®xico
+2,Burger Bros,Americana,Buenos Aires
+C:\Users\mafe6\Documents\foodtrack-db&gt;type data\products.csv
+product_id,foodtruck_id,name,price,stock
+101,1,Taco al pastor,50,100
+102,1,Quesadilla,40,80
+103,2,Cheeseburger,70,120
+104,2,Papas fritas,30,150
+C:\Users\mafe6\Documents\foodtrack-db&gt;type data\orders.csv
+order_id,foodtruck_id,order_date,status,total
+1001,1,2023-09-01,entregado,90
+1002,2,2023-09-01,pendiente,100
+C:\Users\mafe6\Documents\foodtrack-db&gt;type data\order_items.csv
+order_item_id,order_id,product_id,quantity
+1,1001,101,1
+2,1002,103,1
+3,1002,104,1
+C:\Users\mafe6\Documents\foodtrack-db&gt;type data\locations.csv
+location_id,foodtruck_id,location_date,zone
+1,1,2023-09-01,Centro
+2,2,2023-09-01,Parque
+C:\Users\mafe6\Documents\foodtrack-db&gt;</p><div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-bg-300 to-transparent pointer-events-none"></div></div><button class="pb-3 pt-1 text-xs text-text-500/80 hover:text-text-100 transition w-3/4 text-left rounded-lg">Mostrar más</button></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Excelente!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Excelente! Ya tenemos los datos 👀</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ahora viene la parte más importante antes de tocar SQL: <strong>entender qué significa cada archivo y cómo se relacionan entre sí</strong>.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Qué tiene cada archivo?</h3>
+<div class="overflow-x-auto w-full px-2 mb-6"><table class="min-w-full border-collapse text-sm leading-[1.7] whitespace-normal"><thead class="text-left"><tr><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Archivo</th><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">Qué representa</th></tr></thead><tbody><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrucks.csv</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Los food trucks: su nombre, tipo de cocina y ciudad</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">products.csv</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Los productos que vende cada food truck</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">orders.csv</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Los pedidos que recibió cada food truck</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">order_items.csv</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">El detalle de qué productos tiene cada pedido</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">locations.csv</code></td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Dónde estuvo cada food truck en cada fecha</td></tr></tbody></table></div>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Cómo se conectan entre sí?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Fijate que hay números que se repiten entre archivos — eso es lo que une las tablas:</p></div></div><div><div class="ease-out transition-all flex flex-col font-ui leading-normal my-3 min-h-[2.625rem] overflow-hidden border-0.5  border-border-300 rounded-lg hover:bg-bg-200 mt-3 mb-2" style="opacity: 1;"><div class="group/row flex flex-row items-center justify-between gap-4 rounded-lg text-text-300 h-[2.625rem] py-2 px-3 cursor-default"><div class="flex flex-row items-center gap-2 min-w-0"><div class="w-5 h-5 flex items-center justify-center text-text-100"><div class="shrink-0 bg-bg-000 border-border-300 border-0.5 shadow-sm flex items-center justify-center !border-0 !shadow-none !bg-transparent" style="width: 16px; height: 16px; border-radius: 4.32px;"><div class="shrink-0 flex items-center justify-center bg-bg-000 text-text-300 font-medium border-0.5 border-border-300 shadow-[0_0.8px_1.6px_0_hsl(var(--always-black)/5%)]" style="width: 16px; height: 16px; font-size: 10.4px; border-radius: 4.8px;"><p class="font-ui shrink-0 leading-tight">V</p></div></div></div><div class="flex gap-2 relative bottom-[0.5px] font-base text-left leading-tight overflow-hidden overflow-ellipsis whitespace-nowrap flex-grow text-text-300">Conectando a visualize...</div></div><div class="flex flex-row items-center gap-1.5 min-w-0 shrink-0"></div></div></div></div><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Entendés cómo se conectan?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">La clave es el campo <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtruck_id</code> — aparece en casi todas las tablas. Es el "hilo" que une todo.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Por ejemplo: el food truck número <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">1</code> ("Taco Loco") tiene productos con <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtruck_id=1</code>, pedidos con <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtruck_id=1</code>, y ubicaciones con <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtruck_id=1</code>.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Tiene sentido el diagrama? ¿Alguna tabla o relación que no entiendas? Antes de escribir una sola línea de SQL necesitamos que esto esté claro 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: entiendo perfecto!</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">entiendo perfecto! gracias eres el mejor profesor</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Qué bueno que quedó claro!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Qué bueno que quedó claro! 🎉</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Entonces ahora sí podemos arrancar con SQL. Vamos a crear las tablas en DBeaver.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Primero — ¿Cómo está tu SQL Server?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Cuando instalaste SQL Server, el instalador crea un "servidor" corriendo en tu computadora. Necesitamos verificar que esté activo antes de abrir DBeaver.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Abrí DBeaver</strong> — debería estar en tu escritorio o en el menú inicio.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Cuando lo abrás, decime qué ves en pantalla. Si hay algún mensaje de error o si te pide conectarte a algo, pegame una captura o describime qué dice 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778081841960_WhatsApp Image 2026-05-06 at 12.36.49 PM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778081841960_WhatsApp Image 2026-05-06 at 12.36.49 PM.jpeg" src="./01_create_tables_files/preview"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">6 may</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto, DBeaver está abierto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto, DBeaver está abierto!</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Veo que tenés una conexión llamada <strong>"DBeaver Sample Database (SQLite)"</strong>. Eso es una base de datos de ejemplo que viene por defecto.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Importante — SQLite vs SQL Server</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">El proyecto pide <strong>SQL Server</strong>, pero noto que tu DBeaver tiene SQLite. Son dos motores distintos:</p>
+<div class="overflow-x-auto w-full px-2 mb-6"><table class="min-w-full border-collapse text-sm leading-[1.7] whitespace-normal"><thead class="text-left"><tr><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold"></th><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">SQLite</th><th scope="col" class="text-text-100 border-b-0.5 border-border-300/60 py-2 pr-4 align-top font-bold">SQL Server</th></tr></thead><tbody><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Instalación</td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Ya está incluido en DBeaver</td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Se instala por separado</td></tr><tr><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Uso</td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Archivos simples, proyectos pequeños</td><td class="border-b-0.5 border-border-300/30 py-2 pr-4 align-top">Empresarial, más robusto</td></tr></tbody></table></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Pregunta clave:</strong> ¿Instalaste SQL Server por separado, o solo instalaste DBeaver?</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Si no instalaste SQL Server todavía, tenemos dos opciones:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Instalarlo ahora (es gratuito con la versión Express)</li>
+<li class="whitespace-normal break-words pl-2">Usar SQLite que ya tenés funcionando — sirve perfectamente para aprender y el SQL es casi idéntico</li>
+</ol>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Qué dice tu curso exactamente, exige SQL Server o podés usar cualquier motor? 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: hola!</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">hola! creo que estan los dos conectados y funcionando. seguimos avanzando donde nos quedamos ayer</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:16</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Hola Mafe!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Hola Mafe! Bienvenida de vuelta 👋</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Perfecto, si los dos están conectados entonces estamos listos para avanzar.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Dónde nos quedamos?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">✅ Repositorio creado en GitHub
+✅ Clonado a tu computadora
+✅ Carpetas <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">scripts/</code> y <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">data/</code> creadas
+✅ CSV descargados en la carpeta <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">data/</code>
+✅ DBeaver abierto y funcionando</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">El siguiente paso es crear la base de datos en DBeaver</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Antes de crear las tablas, necesitamos crear una <strong>base de datos</strong> que las contenga. Pensala como una carpeta que agrupa todas las tablas del proyecto.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>En DBeaver hacé esto:</strong></p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">En el panel izquierdo (<strong>Database Navigator</strong>) buscá tu conexión de SQL Server</li>
+<li class="whitespace-normal break-words pl-2">Hacé <strong>clic derecho</strong> sobre ella</li>
+<li class="whitespace-normal break-words pl-2">Buscá la opción <strong>"Create New Database"</strong></li>
+</ol>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Ves la conexión de SQL Server en el panel izquierdo? ¿Cómo aparece listada? Mandame una foto si querés 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778159892459_WhatsApp Image 2026-05-07 at 10.17.56 AM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778159892459_WhatsApp Image 2026-05-07 at 10.17.56 AM.jpeg" src="./01_create_tables_files/preview(1)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:18</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Mafe, esto es otra herramienta!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Mafe, esto es otra herramienta! 😄</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Lo que veo en la foto es <strong>SQL Server Management Studio (SSMS)</strong> — no DBeaver. Pero está perfecto, es incluso más completo para trabajar con SQL Server.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Además veo cosas muy importantes en la pantalla:</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">✅ Estás conectada a <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">localhost\SQLEXPRESS</code>
+✅ Ya existe <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack_db</code> (se ve arriba)
+✅ Ya hay código SQL escrito</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Antes de seguir — ¿qué pasó ayer?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Veo en el panel de <strong>Mensajes</strong> (abajo en rojo) un error que dice:</p>
+<blockquote class="ml-2 border-l-4 border-border-300/10 pl-4 text-text-300">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><em>"There is already an object named 'locations' in the database"</em></p>
+</blockquote>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Eso significa que alguien ya intentó crear la tabla <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">locations</code> antes.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Pregunta:</strong> ¿Estuviste trabajando en esto ayer por tu cuenta, o alguien más tocó esto? ¿Sabés qué tablas ya están creadas?</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">En la ventana de consulta escribí esto y ejecutalo con el botón <strong>Ejecutar</strong>:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">USE</span><span> foodtrack_db</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">SELECT</span><span> name </span><span class="token token" style="color: rgb(129, 0, 194);">FROM</span><span> sys</span><span class="token token" style="color: rgb(43, 48, 59);">.</span><span class="token token" style="color: rgb(129, 0, 194);">tables</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Eso nos muestra todas las tablas que ya existen. Pegame o fotografiame el resultado 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: perfecto trabajemos de Dbeaver me explicas todo paso a paso como profesor de una principiante que no sabe nada</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">perfecto trabajemos de Dbeaver me explicas todo paso a paso como profesor de una principiante que no sabe nada</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:19</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto! Vamos con DBeaver entonces 😊</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Abrí DBeaver y mandame una foto de cómo está la pantalla ahora 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778159982309_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778159982309_image.png" src="./01_create_tables_files/preview(2)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:19</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto, DBeaver está abierto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto, DBeaver está abierto! 😊</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Veo dos conexiones en el panel izquierdo:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">127.0.0.1</code> — esta es tu <strong>SQL Server</strong></li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">DBeaver Sample Database (SQLite)</code> — esta es la de ejemplo</li>
+</ul>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Primero — conectarnos a SQL Server</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hacé <strong>clic en la flechita</strong> que está a la izquierda de <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">127.0.0.1</code> para expandirla.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Qué aparece adentro? Mandame foto 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160056600_WhatsApp Image 2026-05-07 at 10.20.36 AM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160056600_WhatsApp Image 2026-05-07 at 10.20.36 AM.jpeg" src="./01_create_tables_files/preview(3)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:21</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto! Veo el tooltip con la información de tu SQL Server:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><strong>Name:</strong> 127.0.0.1</li>
+<li class="whitespace-normal break-words pl-2"><strong>Database Version:</strong> 17.0 — es SQL Server ✅</li>
+<li class="whitespace-normal break-words pl-2"><strong>User:</strong> sa</li>
+</ul>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Conectarnos a SQL Server</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hacé <strong>doble clic</strong> sobre <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">127.0.0.1</code> para conectarte. Es posible que te pida una contraseña.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Qué aparece? Mandame foto 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: no me pide nada</h2><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160137349_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160137349_image.png" src="./01_create_tables_files/preview(4)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">no me pide nada</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:22</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto, estás conectada!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto, estás conectada! ✅</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Se expandió y ves tres carpetas:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><strong>Databases</strong> — acá van a vivir nuestras tablas</li>
+<li class="whitespace-normal break-words pl-2">Security</li>
+<li class="whitespace-normal break-words pl-2">Administer</li>
+</ul>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora expandí la carpeta Databases</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hacé clic en la flechita de <strong>Databases</strong> para ver qué bases de datos ya existen.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Mandame foto 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160193597_WhatsApp Image 2026-05-07 at 10.23.06 AM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160193597_WhatsApp Image 2026-05-07 at 10.23.06 AM.jpeg" src="./01_create_tables_files/preview(5)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:23</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Excelente!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Excelente! Veo algo muy importante 👀</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">En la lista de bases de datos ya existe <strong><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack_db</code></strong> — eso confirma que alguien (probablemente vos desde SSMS ayer) ya la creó.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Esto es perfecto, no necesitamos crearla de nuevo. ¡Ya tenemos la base de datos lista!</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora vamos a abrir foodtrack_db</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">En el panel izquierdo, expandí <strong>Databases</strong> haciendo clic en la flechita. Deberías ver <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack_db</code> ahí.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hacé clic en la flechita de <strong><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack_db</code></strong> para ver qué hay adentro.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Mandame foto 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160279520_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160279520_image.png" src="./01_create_tables_files/preview(6)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:24</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto! Estás dentro de <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack_db</code> ✅</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ves que tiene un <strong>Schema llamado <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">dbo</code></strong> — eso es normal en SQL Server, es el esquema por defecto donde van a vivir nuestras tablas.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora vamos a abrir el editor SQL</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Acá es donde vamos a escribir los comandos para crear las tablas. Es como el "bloc de notas" de DBeaver pero para SQL.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hacé esto:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">En el panel izquierdo, hacé <strong>clic derecho</strong> sobre <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrack_db</code></li>
+<li class="whitespace-normal break-words pl-2">Buscá la opción <strong>"SQL Editor"</strong> o <strong>"New SQL Script"</strong></li>
+<li class="whitespace-normal break-words pl-2">Hacé clic ahí</li>
+</ol>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Se tiene que abrir una pantalla en blanco donde podamos escribir código.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Mandame foto de lo que aparece 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160442765_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160442765_image.png" src="./01_create_tables_files/preview(7)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:27</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto! El editor SQL está abierto y listo ✅</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Fijate arriba que dice <strong><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">dbo@foodtrack_db</code></strong> — eso confirma que estamos trabajando dentro de la base de datos correcta.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Antes de escribir código — una explicación rápida</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Vamos a crear las tablas una por una. Pero primero, ¿qué es una tabla en SQL?</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pensala exactamente como una tabla de Excel:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Tiene <strong>columnas</strong> (los campos: id, nombre, precio...)</li>
+<li class="whitespace-normal break-words pl-2">Tiene <strong>filas</strong> (los datos: 1, Taco Loco, 50...)</li>
+</ul>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Para crear una tabla en SQL se usa el comando <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">CREATE TABLE</code>.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Creamos la primera tabla — <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrucks</code></h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Copiá este código y pegalo en el editor en blanco:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> foodtrucks </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    name           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    cuisine_type   </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">50</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>   </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    city           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Después de pegarlo, ejecutalo presionando el botón <strong>▶ Execute</strong> (el triángulo naranja arriba) o con <strong>Ctrl + Enter</strong>.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Mandame foto del resultado 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160549456_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160549456_image.png" src="./01_create_tables_files/preview(8)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:29</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡No te asustes por el error en rojo!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡No te asustes por el error en rojo! 😊 Es una buena noticia en realidad.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">El error dice:</p>
+<blockquote class="ml-2 border-l-4 border-border-300/10 pl-4 text-text-300">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><em>"There is already an object named 'foodtrucks' in the database"</em></p>
+</blockquote>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Eso significa que la tabla <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrucks</code> <strong>ya existe</strong> — alguien la creó antes (probablemente desde SSMS ayer).</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">¿Qué hacemos?</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Tenemos dos opciones:</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Opción A</strong> — Eliminar las tablas viejas y empezar limpio ✅ recomendada
+<strong>Opción B</strong> — Trabajar con las que ya existen</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Como estamos aprendiendo y queremos hacerlo bien desde cero, lo mejor es <strong>eliminar todo y recrear limpio</strong>.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Borrá el código actual y pegá este:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(110, 118, 135);">-- Eliminar tablas si ya existen (en orden correcto)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> order_items</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> orders</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> products</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> locations</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutalo con <strong>Ctrl + Enter</strong> y mandame foto del resultado 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160640941_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160640941_image.png" src="./01_create_tables_files/preview(9)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:30</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Tablas eliminadas exitosamente!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Tablas eliminadas exitosamente! ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Veo en el panel de abajo:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><strong>Updated Rows: 0</strong> — sin errores</li>
+<li class="whitespace-normal break-words pl-2"><strong>Execute time: 0.009s</strong> — ejecutó perfecto</li>
+<li class="whitespace-normal break-words pl-2">La base de datos está limpia y lista</li>
+</ul>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora sí — creamos las tablas desde cero</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Antes de escribir el código, te explico qué significa cada parte:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">INT</code> → número entero (para IDs)</li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">VARCHAR(100)</code> → texto de hasta 100 caracteres</li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">DECIMAL(10,2)</code> → número con decimales (para precios)</li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">NOT NULL</code> → ese campo es obligatorio, no puede estar vacío</li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">PRIMARY KEY</code> → el identificador único de cada fila</li>
+<li class="whitespace-normal break-words pl-2"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">FOREIGN KEY</code> → conecta esta tabla con otra</li>
+</ul>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Borrá el código actual y pegá este — son las <strong>5 tablas completas</strong> de una vez:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 1: foodtrucks</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> foodtrucks </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    name           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    cuisine_type   </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">50</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>   </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    city           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 2: locations</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> locations </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    location_id    </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    location_date  </span><span class="token token" style="color: rgb(129, 0, 194);">DATE</span><span>          </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    zone           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_locations </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>location_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_locations_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 3: products</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> products </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    product_id     </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    name           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    price          </span><span class="token token" style="color: rgb(129, 0, 194);">DECIMAL</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">10</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span class="token token" style="color: rgb(0, 128, 128);">2</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span> </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    stock          </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_products </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_products_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 4: orders</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> orders </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    order_id       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    order_date     </span><span class="token token" style="color: rgb(129, 0, 194);">DATE</span><span>          </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">status</span><span>         </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">50</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>   </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    total          </span><span class="token token" style="color: rgb(129, 0, 194);">DECIMAL</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">10</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span class="token token" style="color: rgb(0, 128, 128);">2</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span> </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_orders </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_orders_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 5: order_items</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> order_items </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    order_item_id  </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    order_id       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    product_id     </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    quantity       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_order_items </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_item_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_order_items_orders </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> orders</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_order_items_products </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> products</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutalo con <strong>Ctrl + Enter</strong> y mandame foto 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778160930012_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160930012_image.png" src="./01_create_tables_files/preview(10)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:35</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡No te preocupes, esto tiene solución fácil!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡No te preocupes, esto tiene solución fácil! 😊</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">El error dice:</p>
+<blockquote class="ml-2 border-l-4 border-border-300/10 pl-4 text-text-300">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><em>"Foreign key 'FK_order_items_orders' references invalid table 'orders'"</em></p>
+</blockquote>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Esto significa que cuando intentó crear <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">order_items</code>, la tabla <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">orders</code> todavía no existía. En SQL <strong>el orden importa</strong> — no podés referenciar una tabla que aún no fue creada.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pero hay otro problema: algunas tablas sí se crearon y otras no. Entonces primero hay que limpiar de nuevo y volver a ejecutar en el orden correcto.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><strong>Paso 1</strong> — Borrá todo y pegá esto primero:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> order_items</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> orders</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> products</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> locations</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá con <strong>Ctrl + Enter</strong>. Cuando veas que funcionó (sin errores rojos), avisame y te doy el siguiente paso 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Updated Rows	0</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Updated Rows    0
+Execute time    0s
+Start time    Thu May 07 10:37:47 ART 2026
+Finish time    Thu May 07 10:37:47 ART 2026
+Query    DROP TABLE IF EXISTS foodtrucks</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:38</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Perfecto, tablas eliminadas!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¡Perfecto, tablas eliminadas! ✅</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ahora pegá este código — es el mismo de antes pero en el <strong>orden correcto</strong>:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 1: foodtrucks (primero, porque las demás dependen de ella)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> foodtrucks </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    name           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    cuisine_type   </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">50</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>   </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    city           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 2: products (depende de foodtrucks)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> products </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    product_id     </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    name           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    price          </span><span class="token token" style="color: rgb(129, 0, 194);">DECIMAL</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">10</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span class="token token" style="color: rgb(0, 128, 128);">2</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span> </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    stock          </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_products </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_products_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 3: locations (depende de foodtrucks)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> locations </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    location_id    </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    location_date  </span><span class="token token" style="color: rgb(129, 0, 194);">DATE</span><span>          </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    zone           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_locations </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>location_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_locations_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 4: orders (depende de foodtrucks)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> orders </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    order_id       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    order_date     </span><span class="token token" style="color: rgb(129, 0, 194);">DATE</span><span>          </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">status</span><span>         </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">50</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>   </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    total          </span><span class="token token" style="color: rgb(129, 0, 194);">DECIMAL</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">10</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span class="token token" style="color: rgb(0, 128, 128);">2</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span> </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_orders </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_orders_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(110, 118, 135);">-- Tabla 5: order_items (depende de orders Y products, va última)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> order_items </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    order_item_id  </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    order_id       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    product_id     </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    quantity       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_order_items </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_item_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_order_items_orders </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> orders</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_order_items_products </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> products</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá con <strong>Ctrl + Enter</strong> y mandame lo que aparece abajo 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: SQL Error [2714] [S0001]: There is already an object named 'locations' in the database.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">SQL Error [2714] [S0001]: There is already an object named 'locations' in the database.</p><p class="whitespace-pre-wrap break-words">Error position: line: 1</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:39</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Hay tablas que quedaron a medias del intento anterior.</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hay tablas que quedaron a medias del intento anterior. Vamos a limpiar más fuerte esta vez.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegá esto y ejecutá:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> order_items</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> orders</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> locations</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> products</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">IF</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">EXISTS</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Luego verificá que quedó todo limpio con esto:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">SELECT</span><span> name </span><span class="token token" style="color: rgb(129, 0, 194);">FROM</span><span> sys</span><span class="token token" style="color: rgb(43, 48, 59);">.</span><span class="token token" style="color: rgb(129, 0, 194);">tables</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Qué aparece en los resultados? Si la lista está vacía, estamos listos para crear todo de nuevo 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Updated Rows	0</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Updated Rows    0
+Execute time    0.003s
+Start time    Thu May 07 10:40:19 ART 2026
+Finish time    Thu May 07 10:40:19 ART 2026
+Query    DROP TABLE IF EXISTS foodtrucks</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:40</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Bien, ahora verificá que no quede ninguna tabla.</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Bien, ahora verificá que no quede ninguna tabla. Pegá esto y ejecutá:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">SELECT</span><span> name </span><span class="token token" style="color: rgb(129, 0, 194);">FROM</span><span> sys</span><span class="token token" style="color: rgb(43, 48, 59);">.</span><span class="token token" style="color: rgb(129, 0, 194);">tables</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Qué aparece en los resultados? 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778161417687_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778161417687_image.png" src="./01_create_tables_files/preview(11)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:43</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Quedó una tabla locations que no se borró.</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Quedó una tabla <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">locations</code> que no se borró. Eso pasa porque tiene una restricción que lo impide. Vamos a forzar el borrado.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegá esto y ejecutá:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">DROP</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> locations</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Luego verificá de nuevo:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">SELECT</span><span> name </span><span class="token token" style="color: rgb(129, 0, 194);">FROM</span><span> sys</span><span class="token token" style="color: rgb(43, 48, 59);">.</span><span class="token token" style="color: rgb(129, 0, 194);">tables</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">¿Qué aparece? 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778161504338_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778161504338_image.png" src="./01_create_tables_files/preview(12)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:45</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡Base de datos completamente limpia!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡Base de datos completamente limpia! ✅</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">El resultado está vacío — no hay ninguna tabla. Perfecto, empezamos de cero.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora sí — creamos las 5 tablas</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Borrá todo el contenido del editor y pegá <strong>solo esto</strong>:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> foodtrucks </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    name           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    cuisine_type   </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">50</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>   </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    city           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> products </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    product_id     </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    name           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    price          </span><span class="token token" style="color: rgb(129, 0, 194);">DECIMAL</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">10</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span class="token token" style="color: rgb(0, 128, 128);">2</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span> </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    stock          </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_products </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_products_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> locations </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    location_id    </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    location_date  </span><span class="token token" style="color: rgb(129, 0, 194);">DATE</span><span>          </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    zone           </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">100</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>  </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_locations </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>location_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_locations_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> orders </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    order_id       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    foodtruck_id   </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    order_date     </span><span class="token token" style="color: rgb(129, 0, 194);">DATE</span><span>          </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">status</span><span>         </span><span class="token token" style="color: rgb(129, 0, 194);">VARCHAR</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">50</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>   </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    total          </span><span class="token token" style="color: rgb(129, 0, 194);">DECIMAL</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span class="token token" style="color: rgb(0, 128, 128);">10</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span class="token token" style="color: rgb(0, 128, 128);">2</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span> </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_orders </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_orders_foodtrucks </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> foodtrucks</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>foodtruck_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span><span>
+</span></span><span>
+</span><span><span></span><span class="token token" style="color: rgb(129, 0, 194);">CREATE</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">TABLE</span><span> order_items </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>
+</span></span><span><span>    order_item_id  </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    order_id       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    product_id     </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    quantity       </span><span class="token token" style="color: rgb(129, 0, 194);">INT</span><span>           </span><span class="token token" style="color: rgb(20, 24, 31);">NOT</span><span> </span><span class="token token" style="color: rgb(0, 128, 128);">NULL</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> PK_order_items </span><span class="token token" style="color: rgb(129, 0, 194);">PRIMARY</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_item_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_order_items_orders </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> orders</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>order_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">,</span><span>
+</span></span><span><span>    </span><span class="token token" style="color: rgb(129, 0, 194);">CONSTRAINT</span><span> FK_order_items_products </span><span class="token token" style="color: rgb(129, 0, 194);">FOREIGN</span><span> </span><span class="token token" style="color: rgb(129, 0, 194);">KEY</span><span> </span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span>        </span><span class="token token" style="color: rgb(129, 0, 194);">REFERENCES</span><span> products</span><span class="token token" style="color: rgb(43, 48, 59);">(</span><span>product_id</span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span>
+</span></span><span><span></span><span class="token token" style="color: rgb(43, 48, 59);">)</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ejecutá con <strong>Ctrl + Enter</strong> y mandame foto 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: SQL Error [1767] [S0000]: Foreign key 'FKorderitems_orders' references invalid table 'orders'.</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">SQL Error [1767] [S0000]: Foreign key 'FK_order_items_orders' references invalid table 'orders'.</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:46</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: Ese error significa que DBeaver está ejecutando solo la última sentencia en lugar de todas juntas.</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Ese error significa que DBeaver está ejecutando solo la <strong>última sentencia</strong> en lugar de todas juntas.</p>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">La solución — ejecutar todo el script junto</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">En DBeaver hay que indicarle que ejecute <strong>todas</strong> las sentencias. Hacé esto:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Seleccioná <strong>todo el texto</strong> con <strong>Ctrl + A</strong></li>
+<li class="whitespace-normal break-words pl-2">Luego ejecutá con <strong>Alt + X</strong> (en lugar de Ctrl + Enter)</li>
+</ol>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]"><code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">Alt + X</code> ejecuta todas las sentencias seleccionadas de una vez.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Intentalo y mandame foto del resultado 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><h2 class="sr-only">Has dicho: Queries	5</h2><div class="flex flex-col items-end gap-1"><div data-user-message-bubble="true" class="group relative inline-flex gap-2 bg-bg-300 rounded-xl pl-2.5 py-2.5 break-words text-text-100 transition-all max-w-[75ch] flex-col !px-4 max-w-[85%]" style="opacity: 1; transform: none;"><div class="flex flex-row gap-2 relative"><div class="flex-1"><div data-testid="user-message" class="font-large !font-user-message grid grid-cols-1 gap-2 py-0.5 relative [&amp;_ul]:!space-y-0 [&amp;_ol]:!space-y-0 [&amp;_ul]:pl-8 [&amp;_ol]:pl-8" style="max-height: none; overflow: hidden; position: relative;"><p class="whitespace-pre-wrap break-words">Queries    5
+Updated Rows    0
+Execute time    0.021s
+Fetch time    0s
+Total time    0.021s
+Start time    2026-05-07 10:46:51.676
+Finish time    2026-05-07 10:46:51.705</p></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:47</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡¡5 tablas creadas exitosamente!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡¡5 tablas creadas exitosamente!! 🎉</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Fijate:</p>
+<ul class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2"><strong>Queries: 5</strong> — ejecutó las 5 sentencias</li>
+<li class="whitespace-normal break-words pl-2"><strong>Updated Rows: 0</strong> — sin errores</li>
+<li class="whitespace-normal break-words pl-2"><strong>Total time: 0.021s</strong> — rapidísimo</li>
+</ul>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Verificamos que todo quedó bien</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Pegá esto y ejecutá con <strong>Ctrl + Enter</strong>:</p>
+<div role="group" aria-label="Código sql" tabindex="0" class="relative group/copy bg-bg-000/50 border-0.5 border-border-400 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-100"><div class="sticky opacity-0 group-hover/copy:opacity-100 group-focus-within/copy:opacity-100 top-2 py-2 h-12 w-0 float-right"><div class="absolute right-0 h-8 px-2 items-center inline-flex z-10"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Copiar al portapapeles" data-state="closed"><div class="relative"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute inset-0 flex items-center justify-center"><div class="transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></div></button></div></div><div class="text-text-500 font-small p-3.5 pb-0">sql</div><div class="overflow-x-auto"><pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed p-3.5" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono);"><code class="language-sql" style="color: rgb(20, 24, 31); background: transparent; font-family: var(--font-mono); white-space: pre;"><span><span class="token token" style="color: rgb(129, 0, 194);">SELECT</span><span> name </span><span class="token token" style="color: rgb(129, 0, 194);">FROM</span><span> sys</span><span class="token token" style="color: rgb(43, 48, 59);">.</span><span class="token token" style="color: rgb(129, 0, 194);">tables</span><span class="token token" style="color: rgb(43, 48, 59);">;</span></span></code></pre></div></div>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Deberías ver las 5 tablas en la lista. Mandame foto 👇</p></div></div></div></div></div><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div data-test-render-count="2"><div class="contents"><div class="mb-1 mt-6 group"><div class="gap-2 mx-0.5 mb-3 flex flex-wrap justify-end"><div class="relative group/thumbnail"><div data-testid="1778161727830_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 120px; height: 120px; min-width: 120px; min-height: 120px;"><button class="relative bg-bg-000" style="width: 120px; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778161727830_image.png" src="./01_create_tables_files/preview(13)"></button></div></div></div><div class="flex flex-col items-end gap-1"><div class="flex justify-start opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><span class="text-text-500 text-xs flex items-center mr-2" data-state="closed">10:48</span><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Edit"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.728 2.88a1.5 1.5 0 0 1 1.946-.847l2.792 1.1a1.5 1.5 0 0 1 .845 1.945l-3.92 9.953a1.5 1.5 0 0 1-.452.615l-.088.066-3.143 2.186a.75.75 0 0 1-1.135-.362l-.026-.095-.81-3.742a1.5 1.5 0 0 1 .071-.867zm-2.99 10.319a.5.5 0 0 0-.023.288l.73 3.376 2.835-1.971.058-.047a.5.5 0 0 0 .122-.18l2.637-6.698-3.721-1.466zm4.57-10.236a.5.5 0 0 0-.65.283L9.743 5.57l3.722 1.467.917-2.327a.5.5 0 0 0-.283-.648z"></path></svg></div></button></div></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="flex items-center"></div></div></div></div></div></div></div></div><div data-test-render-count="1"><div class="group" style="height: auto; opacity: 1; transform: none;"><div class="contents"><div data-is-streaming="false" class="group relative relative pb-3" style="opacity: 1; transform: none;"><h2 class="sr-only">Claude ha respondido: ¡PERFECTO!</h2><div class="font-claude-response relative leading-[1.65rem] [&amp;_pre&gt;div]:bg-bg-000/50 [&amp;_pre&gt;div]:border-0.5 [&amp;_pre&gt;div]:border-border-400 [&amp;_.ignore-pre-bg&gt;div]:bg-transparent [&amp;_.standard-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.standard-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8 [&amp;_.progressive-markdown_:is(p,blockquote,h1,h2,h3,h4,h5,h6)]:pl-2 [&amp;_.progressive-markdown_:is(p,blockquote,ul,ol,h1,h2,h3,h4,h5,h6)]:pr-8"><div><div class="standard-markdown grid-cols-1 grid [&amp;_&gt;_*]:min-w-0 gap-3 standard-markdown"><h2 class="text-text-100 mt-3 -mb-1 text-[1.375rem] font-bold">¡PERFECTO! Las 5 tablas están creadas! 🎉</h2>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Se ven todas en la lista:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">✅ <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">order_items</code></li>
+<li class="whitespace-normal break-words pl-2">✅ <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">foodtrucks</code></li>
+<li class="whitespace-normal break-words pl-2">✅ <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">products</code></li>
+<li class="whitespace-normal break-words pl-2">✅ <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">locations</code></li>
+<li class="whitespace-normal break-words pl-2">✅ <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">orders</code></li>
+</ol>
+<hr class="border-border-200 border-t-0.5 my-3 mx-1.5">
+<h3 class="text-text-100 mt-3 -mb-1 text-[1.125rem] font-bold">Ahora hay que guardar este script en el proyecto</h3>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Este código que escribimos es valioso — hay que guardarlo en la carpeta <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">scripts/</code> del repositorio.</p>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Hacé esto en DBeaver:</p>
+<ol class="[li_&amp;]:mb-0 [li_&amp;]:mt-1 [li_&amp;]:gap-1 [&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal flex flex-col gap-1 pl-8 mb-3">
+<li class="whitespace-normal break-words pl-2">Presioná <strong>Ctrl + S</strong> para guardar el script</li>
+<li class="whitespace-normal break-words pl-2">Te va a preguntar dónde guardarlo</li>
+<li class="whitespace-normal break-words pl-2">Navegá hasta <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">C:\Users\mafe6\Documents\foodtrack-db\scripts\</code></li>
+<li class="whitespace-normal break-words pl-2">Poné de nombre: <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">01_create_tables.sql</code></li>
+<li class="whitespace-normal break-words pl-2">Hacé clic en <strong>Guardar</strong></li>
+</ol>
+<p class="font-claude-response-body break-words whitespace-normal leading-[1.7]">Avisame cuando lo tengas guardado 👇</p></div></div></div></div></div><div class="flex justify-start" role="group" aria-label="Message actions"><div class="text-text-300"><div class="text-text-300 flex items-stretch justify-between"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-copy" aria-label="Copy"><div class="relative text-text-500 group-hover/btn:text-text-100"><div class="transition-all opacity-100 scale-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="transition-all opacity-100 scale-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path></svg></div><div class="absolute top-0 left-0 transition-all opacity-0 scale-50" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 transition-all opacity-0 scale-50" aria-hidden="true" style="flex-shrink: 0;"><path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path></svg></div></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give positive feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M9.56 2a2.5 2.5 0 0 1 2.452 2.99L11.609 7h2.235a2.75 2.75 0 0 1 2.713 3.202l-.681 4.082A3.25 3.25 0 0 1 12.67 17H4.5A1.5 1.5 0 0 1 3 15.5V9.238a1.5 1.5 0 0 1 1.059-1.433l1.14-.35.139-.048a2.75 2.75 0 0 0 1.56-1.453L8.41 2.59l.07-.13A1 1 0 0 1 9.322 2zM7.81 6.365a3.75 3.75 0 0 1-2.126 1.98l-.192.065-1.14.35A.5.5 0 0 0 4 9.239V15.5a.5.5 0 0 0 .5.5h8.17a2.25 2.25 0 0 0 2.22-1.88l.68-4.082A1.75 1.75 0 0 0 13.844 8H11a.5.5 0 0 1-.49-.598l.521-2.608A1.5 1.5 0 0 0 9.561 3h-.238z"></path></svg></div></button></div><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Give negative feedback"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M12.67 3a3.25 3.25 0 0 1 3.206 2.716l.68 4.082A2.75 2.75 0 0 1 13.845 13H11.61l.403 2.01A2.5 2.5 0 0 1 9.56 18h-.238a1 1 0 0 1-.843-.46l-.069-.13-1.514-3.364a2.75 2.75 0 0 0-1.56-1.453l-.139-.047-1.14-.35A1.5 1.5 0 0 1 3 10.761V4.5A1.5 1.5 0 0 1 4.5 3zM4.5 4a.5.5 0 0 0-.5.5v6.262a.5.5 0 0 0 .353.477l1.14.35.19.065a3.75 3.75 0 0 1 2.127 1.98L9.323 17h.238a1.5 1.5 0 0 0 1.47-1.794l-.521-2.608A.5.5 0 0 1 11 12h2.844a1.75 1.75 0 0 0 1.726-2.038l-.68-4.082A2.25 2.25 0 0 0 12.67 4z"></path></svg></div></button></div><div class="flex items-center"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md group/btn _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="action-bar-retry" aria-label="Retry"><div class="text-text-500 group-hover/btn:text-text-100" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-text-500 group-hover/btn:text-text-100" aria-hidden="true" style="flex-shrink: 0;"><path d="M10.386 2.51A7.5 7.5 0 1 1 5.499 4H3a.5.5 0 0 1 0-1h3.5a.5.5 0 0 1 .49.402L7 3.5V7a.5.5 0 0 1-1 0V4.879a6.5 6.5 0 1 0 4.335-1.37L10 3.5l-.1-.01a.5.5 0 0 1 .1-.99z"></path></svg></div></button></div></div></div></div></div></div></div><div aria-hidden="true" class="h-px w-full pointer-events-none"></div><div><div class="ml-1 flex items-center transition-transform duration-300 ease-out mt-6"><div class="p-1 -translate-x-px"><div aria-hidden="true"><div class="w-8 text-accent-brand inline-block select-none" data-state="closed" style=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full fill-current"><path d="m19.6 66.5 19.7-11 .3-1-.3-.5h-1l-3.3-.2-11.2-.3L14 53l-9.5-.5-2.4-.5L0 49l.2-1.5 2-1.3 2.9.2 6.3.5 9.5.6 6.9.4L38 49.1h1.6l.2-.7-.5-.4-.4-.4L29 41l-10.6-7-5.6-4.1-3-2-1.5-2-.6-4.2 2.7-3 3.7.3.9.2 3.7 2.9 8 6.1L37 36l1.5 1.2.6-.4.1-.3-.7-1.1L33 25l-6-10.4-2.7-4.3-.7-2.6c-.3-1-.4-2-.4-3l3-4.2L28 0l4.2.6L33.8 2l2.6 6 4.1 9.3L47 29.9l2 3.8 1 3.4.3 1h.7v-.5l.5-7.2 1-8.7 1-11.2.3-3.2 1.6-3.8 3-2L61 2.6l2 2.9-.3 1.8-1.1 7.7L59 27.1l-1.5 8.2h.9l1-1.1 4.1-5.4 6.9-8.6 3-3.5L77 13l2.3-1.8h4.3l3.1 4.7-1.4 4.9-4.4 5.6-3.7 4.7-5.3 7.1-3.2 5.7.3.4h.7l12-2.6 6.4-1.1 7.6-1.3 3.5 1.6.4 1.6-1.4 3.4-8.2 2-9.6 2-14.3 3.3-.2.1.2.3 6.4.6 2.8.2h6.8l12.6 1 3.3 2 1.9 2.7-.3 2-5.1 2.6-6.8-1.6-16-3.8-5.4-1.3h-.8v.4l4.6 4.5 8.3 7.5L89 80.1l.5 2.4-1.3 2-1.4-.2-9.2-7-3.6-3-8-6.8h-.5v.7l1.8 2.7 9.8 14.7.5 4.5-.7 1.4-2.6 1-2.7-.6-5.8-8-6-9-4.7-8.2-.5.4-2.9 30.2-1.3 1.5-3 1.2-2.5-2-1.4-3 1.4-6.2 1.6-8 1.3-6.4 1.2-7.9.7-2.6v-.2H49L43 72l-9 12.3-7.2 7.6-1.7.7-3-1.5.3-2.8L24 86l10-12.8 6-7.9 4-4.6-.1-.5h-.3L17.2 77.4l-4.7.6-2-2 .2-3 1-1 8-5.5Z"></path></svg></div></div></div></div></div><div class="h-12"></div><div aria-hidden="true" style="height: 0px;"></div></div><div data-chat-input-container="true" class="sticky bottom-0 mx-auto w-full pt-6 z-[5]"><button aria-label="Ir al final" aria-hidden="true" class="z-[1] size-9 inline-flex items-center justify-center absolute -top-8 left-1/2 -translate-x-1/2 border-0.5 overflow-hidden !rounded-full p-1 shadow-md hover:shadow-lg bg-bg-000/80 hover:bg-bg-000 backdrop-blur transition-opacity duration-200 border-border-300 opacity-0 pointer-events-none" inert=""><div aria-hidden="true"><div class="absolute blur-md transition duration-300 pointer-events-none opacity-0 w-8 text-accent-brand inline-block select-none" data-state="closed" style=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full fill-current"><path d="m19.6 66.5 19.7-11 .3-1-.3-.5h-1l-3.3-.2-11.2-.3L14 53l-9.5-.5-2.4-.5L0 49l.2-1.5 2-1.3 2.9.2 6.3.5 9.5.6 6.9.4L38 49.1h1.6l.2-.7-.5-.4-.4-.4L29 41l-10.6-7-5.6-4.1-3-2-1.5-2-.6-4.2 2.7-3 3.7.3.9.2 3.7 2.9 8 6.1L37 36l1.5 1.2.6-.4.1-.3-.7-1.1L33 25l-6-10.4-2.7-4.3-.7-2.6c-.3-1-.4-2-.4-3l3-4.2L28 0l4.2.6L33.8 2l2.6 6 4.1 9.3L47 29.9l2 3.8 1 3.4.3 1h.7v-.5l.5-7.2 1-8.7 1-11.2.3-3.2 1.6-3.8 3-2L61 2.6l2 2.9-.3 1.8-1.1 7.7L59 27.1l-1.5 8.2h.9l1-1.1 4.1-5.4 6.9-8.6 3-3.5L77 13l2.3-1.8h4.3l3.1 4.7-1.4 4.9-4.4 5.6-3.7 4.7-5.3 7.1-3.2 5.7.3.4h.7l12-2.6 6.4-1.1 7.6-1.3 3.5 1.6.4 1.6-1.4 3.4-8.2 2-9.6 2-14.3 3.3-.2.1.2.3 6.4.6 2.8.2h6.8l12.6 1 3.3 2 1.9 2.7-.3 2-5.1 2.6-6.8-1.6-16-3.8-5.4-1.3h-.8v.4l4.6 4.5 8.3 7.5L89 80.1l.5 2.4-1.3 2-1.4-.2-9.2-7-3.6-3-8-6.8h-.5v.7l1.8 2.7 9.8 14.7.5 4.5-.7 1.4-2.6 1-2.7-.6-5.8-8-6-9-4.7-8.2-.5.4-2.9 30.2-1.3 1.5-3 1.2-2.5-2-1.4-3 1.4-6.2 1.6-8 1.3-6.4 1.2-7.9.7-2.6v-.2H49L43 72l-9 12.3-7.2 7.6-1.7.7-3-1.5.3-2.8L24 86l10-12.8 6-7.9 4-4.6-.1-.5h-.3L17.2 77.4l-4.7.6-2-2 .2-3 1-1 8-5.5Z"></path></svg></div></div><div class="mix-blend-luminosity" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="mix-blend-luminosity" aria-hidden="true" style="flex-shrink: 0;"><path d="M10 3a.5.5 0 0 1 .5.5v11.793l4.147-4.146a.5.5 0 0 1 .707.707l-5 5a.5.5 0 0 1-.631.062l-.076-.062-5-5a.5.5 0 0 1 .707-.707L9.5 15.293V3.5A.5.5 0 0 1 10 3"></path></svg></div></button><div><fieldset class="flex w-full min-w-0 flex-col"><input id="chat-input-file-upload-bottom" data-testid="file-upload" aria-hidden="true" tabindex="-1" class="absolute -z-10 h-0 w-0 overflow-hidden opacity-0 select-none" accept="" multiple="" aria-label="Subir archivos" type="file"><div class="px-3 md:px-2" data-alert-band-wrapper="true"><div role="status" aria-live="polite" aria-atomic="true"><div style="opacity: 1; height: auto;"><div class="w-full border-0.5 relative z-0 px-3.5 -mb-1 rounded-t-xl border-b-0 pb-2.5 pt-2 bg-bg-300 border-transparent"><div class="font-normal text-[0.65rem] sm:text-xs w-full flex gap-1.5 items-center justify-between"><span class="text-text-300 text-sm">Has usado 90&nbsp;% de tu límite de sesión</span><span><a href="https://claude.ai/upgrade?hide_free=true&amp;from=ratelimit" class="inline underline underline-offset-[3px] [&amp;:not(:is(:hover,:focus))]:decoration-[color-mix(in_srgb,currentColor,transparent_60%)] cursor-pointer text-sm">Sigue trabajando</a><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-6 w-6 rounded-md ml-2 !bg-transparent _fill_10ocf_9 _ghost_10ocf_96" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg></button></span></div></div></div></div></div><div class="relative"><div data-testid="voice-audio-visualizer" class="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 pointer-events-none transition-opacity duration-500" style="width: 150%; aspect-ratio: 4 / 1; opacity: 0;"></div><div class="!box-content flex flex-col bg-bg-000 mx-2 md:mx-0 items-stretch transition-all duration-200 relative z-10 rounded-[20px] cursor-text relative z-[1] border border-transparent md:w-full shadow-[0_0.25rem_1.25rem_hsl(var(--always-black)/3.5%),0_0_0_0.5px_hsla(var(--border-300)/0.15)] hover:shadow-[0_0.25rem_1.25rem_hsl(var(--always-black)/3.5%),0_0_0_0.5px_hsla(var(--border-200)/0.3)] focus-within:shadow-[0_0.25rem_1.25rem_hsl(var(--always-black)/7.5%),0_0_0_0.5px_hsla(var(--border-200)/0.3)] hover:focus-within:shadow-[0_0.25rem_1.25rem_hsl(var(--always-black)/7.5%),0_0_0_0.5px_hsla(var(--border-200)/0.3)]"><div class="flex flex-col m-3.5 gap-3"><div class="relative"><div class="w-full overflow-y-auto font-large break-words transition-opacity duration-200 max-h-96 min-h-[1.5rem] pl-[6px] pt-[6px]"><div contenteditable="true" role="textbox" enterkeyhint="enter" data-testid="chat-input" aria-label="Escriba su consulta para Claude" aria-multiline="true" aria-required="false" aria-invalid="false" aria-describedby="legacy-model-warning-text claude-code-nudge-body" translate="no" class="tiptap ProseMirror ProseMirror-focused" tabindex="0"><p>listo</p></div></div></div><div class="relative flex gap-2 w-full items-center"><div class="relative flex-1 flex items-center shrink min-w-0 gap-1"><div><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md !rounded-lg hover:!bg-bg-200 aria-expanded:!bg-bg-300 active:!scale-100 ml-[2px] _fill_10ocf_9 _ghost_10ocf_96" type="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" id="_r_al_" aria-label="Añadir archivos, conectores y más" data-state="closed"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M10 3a.5.5 0 0 1 .5.5v6h6l.1.01a.5.5 0 0 1 0 .98l-.1.01h-6v6a.5.5 0 0 1-1 0v-6h-6a.5.5 0 0 1 0-1h6v-6A.5.5 0 0 1 10 3"></path></svg></div></button></div><div class="flex flex-row items-center min-w-0 gap-1"></div><div class="text-text-400 text-xs ml-2"></div></div><div class="transition-all duration-200 ease-out"><span class="inline-flex"><div class="overflow-hidden shrink-0 p-1 -m-1" style="opacity: 1; transform: none;"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs pl-2.5 pr-2 gap-1 hover:!bg-bg-200 _fill_10ocf_9 _ghost_10ocf_96" type="button" data-testid="model-selector-dropdown" aria-label="Modelo: Sonnet 4.6" tabindex="0" aria-haspopup="menu" aria-expanded="false" id="_r_ap_"><div class="inline-flex gap-1.5 text-[14px] h-[14px] leading-none items-baseline"><div class="flex items-center gap-[4px]"><div class="whitespace-nowrap select-none">Sonnet 4.6</div></div></div><div class="opacity-75" style="width: 12px; height: 12px; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="opacity-75" aria-hidden="true" style="flex-shrink: 0;"><path d="M14.128 7.165a.502.502 0 0 1 .744.67l-4.5 5-.078.07a.5.5 0 0 1-.666-.07l-4.5-5-.06-.082a.501.501 0 0 1 .729-.656l.075.068L10 11.752z"></path></svg></div></button></div></span></div><div class="shrink-0 flex items-center"><div style="opacity: 1; transform: none;"><div data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none font-base-bold
+          transition-colors h-8 w-8 rounded-md !rounded-lg !h-8 !w-8 disabled:cursor-default _fill_10ocf_9 _claude_10ocf_159" type="button" aria-label="Enviar mensaje"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M208.49,120.49a12,12,0,0,1-17,0L140,69V216a12,12,0,0,1-24,0V69L64.49,120.49a12,12,0,0,1-17-17l72-72a12,12,0,0,1,17,0l72,72A12,12,0,0,1,208.49,120.49Z"></path></svg></button></div></div></div></div></div><div></div></div></div></fieldset></div><div role="note" data-disclaimer="true" class="bg-bg-100 text-text-500 text-center text-xs py-2"><a href="https://support.anthropic.com/en/articles/8525154-claude-is-providing-incorrect-or-misleading-responses-what-s-going-on" target="_blank" rel="noopener noreferrer" class="hover:text-text-300 transition">Claude es IA y puede cometer errores. Por favor, verifica las respuestas.</a></div></div></div></div></div></div><div class="group w-2 relative h-full cursor-col-resize -mr-1 z-30 grid place-items-center max-md:hidden hidden"><div class="absolute top-0 bottom-0 right-1 w-[0.5px] bg-border-300 transition-all group-hover:delay-75 group-hover:bg-accent-100 group-hover:w-px group-hover:translate-x-[0.5px]"></div><div class="h-6 w-2 relative rounded-full border-0.5 bg-bg-100 shadow border-border-300 transition duration-200 group-hover:delay-75 group-hover:border-accent-900 group-hover:bg-accent-900 cursor-col-resize"></div></div><div class="max-md:absolute top-0 right-0 bottom-0 left-0 z-20 draggable-none md:flex-grow-0 md:flex-shrink-0 md:basis-0 overflow-hidden h-full md:pt-[var(--df-header-h,0px)] max-md:hidden" aria-hidden="true" inert="" style="flex: 0 1 0%;"><div class="flex flex-col h-full" style="width: auto;"><div class="h-12 md:hidden bg-bg-000/30 backdrop-blur border-b-0.5 border-border-300"></div><div class="flex-1 overflow-hidden h-full bg-bg-100"></div></div></div><div class="flex flex-col relative max-md:absolute max-md:inset-x-0 max-md:top-0 max-md:pointer-events-none max-md:absolute max-md:inset-0"><div class="md:absolute md:right-0 md:top-0 z-20 max-md:w-fit max-md:self-end max-md:pointer-events-auto flex justify-end shrink-0 min-w-0 pr-3 items-center gap-1 !h-12 transition-opacity duration-150 ease-in-out md:opacity-100 delay-300" data-testid="wiggle-controls-actions"><div class="w-fit" data-state="closed"><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none border-transparent
+          transition
+          font-base
+          duration-300
+          ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md _fill_10ocf_9 _ghost_10ocf_96" type="button" aria-label="Abrir barra lateral" data-testid="wiggle-controls-actions-toggle"><div style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;"><path d="M11.586 2a1.5 1.5 0 0 1 1.06.44l2.914 2.914a1.5 1.5 0 0 1 .44 1.06V16.5a1.5 1.5 0 0 1-1.5 1.5h-9a1.5 1.5 0 0 1-1.492-1.347L4 16.5v-13A1.5 1.5 0 0 1 5.5 2zM5.5 3a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h-2.5A1.5 1.5 0 0 1 11 5.5V3zm7.04 10.304a.5.5 0 0 1 .92.392c-.295.69-.871 1.304-1.66 1.304-.487 0-.892-.234-1.2-.574-.309.34-.713.574-1.2.574-.486 0-.892-.233-1.2-.574-.31.34-.714.574-1.2.574a.5.5 0 0 1 0-1c.212 0 .52-.18.74-.696l.034-.067a.5.5 0 0 1 .886.067c.221.516.528.696.74.696.213 0 .52-.18.74-.696l.035-.067a.5.5 0 0 1 .885.067c.22.516.527.696.74.696s.519-.18.74-.696m0-4a.5.5 0 0 1 .92.392c-.295.69-.871 1.304-1.66 1.304-.487 0-.892-.234-1.2-.574-.309.34-.713.574-1.2.574-.486 0-.892-.233-1.2-.574-.31.34-.714.574-1.2.574a.5.5 0 0 1 0-1c.212 0 .52-.18.74-.696l.034-.067a.5.5 0 0 1 .886.067c.221.516.528.696.74.696.213 0 .52-.18.74-.696l.035-.067a.5.5 0 0 1 .885.067c.22.516.527.696.74.696s.519-.18.74-.696M12 5.5a.5.5 0 0 0 .5.5h2.293L12 3.207z"></path></svg></div></button></div><button class="inline-flex
+  items-center
+  justify-center
+  relative
+  isolate
+  shrink-0
+  can-focus
+  select-none
+  disabled:pointer-events-none
+  disabled:opacity-50
+  disabled:shadow-none
+  disabled:drop-shadow-none font-base-bold
+          border-0.5
+          overflow-hidden
+          transition
+          duration-100
+          backface-hidden h-8 rounded-md px-3 min-w-[4rem] whitespace-nowrap !text-xs _fill_10ocf_9 _secondary_10ocf_72" type="button" data-testid="wiggle-controls-actions-share">Compartir</button></div><div class="overflow-x-hidden overflow-y-auto md:h-[calc(100%-56px)] max-md:h-full max-md:border-t max-md:border-border-300 max-md:bg-bg-100 md:transition-[width] md:duration-300 md:ease-[cubic-bezier(0.4,0,0.2,1)] w-0 p-0 m-0 border-0 overflow-hidden" inert="" aria-hidden="true"><div class="w-0"><div class="flex flex-col gap-5 md:transition-opacity md:duration-300 opacity-0 pointer-events-none"><div class="flex flex-col gap-3"><div class="flex items-center justify-between"><h3 class="font-medium text-sm">Contenido</h3></div><div class="flex flex-col gap-2"><div class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3"><div class="relative group/thumbnail"><div data-testid="1778081841960_WhatsApp Image 2026-05-06 at 12.36.49 PM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778081841960_WhatsApp Image 2026-05-06 at 12.36.49 PM.jpeg" src="./01_create_tables_files/preview"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778159892459_WhatsApp Image 2026-05-07 at 10.17.56 AM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778159892459_WhatsApp Image 2026-05-07 at 10.17.56 AM.jpeg" src="./01_create_tables_files/preview(1)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778159982309_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778159982309_image.png" src="./01_create_tables_files/preview(2)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160056600_WhatsApp Image 2026-05-07 at 10.20.36 AM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160056600_WhatsApp Image 2026-05-07 at 10.20.36 AM.jpeg" src="./01_create_tables_files/preview(3)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160137349_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160137349_image.png" src="./01_create_tables_files/preview(4)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160193597_WhatsApp Image 2026-05-07 at 10.23.06 AM.jpeg" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160193597_WhatsApp Image 2026-05-07 at 10.23.06 AM.jpeg" src="./01_create_tables_files/preview(5)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160279520_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160279520_image.png" src="./01_create_tables_files/preview(6)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160442765_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160442765_image.png" src="./01_create_tables_files/preview(7)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160549456_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160549456_image.png" src="./01_create_tables_files/preview(8)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160640941_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160640941_image.png" src="./01_create_tables_files/preview(9)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778160930012_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778160930012_image.png" src="./01_create_tables_files/preview(10)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778161417687_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778161417687_image.png" src="./01_create_tables_files/preview(11)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778161504338_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778161504338_image.png" src="./01_create_tables_files/preview(12)"></button></div></div><div class="relative group/thumbnail"><div data-testid="1778161727830_image.png" class="rounded-lg overflow-hidden can-focus-within rounded-lg border-0.5 border-border-300/25 hover:border-border-200/50 hover:shadow-always-black/10 shadow-sm shadow-always-black/5 cursor-pointer" style="width: 100%; height: 120px; min-width: 100%; min-height: 120px;"><button class="relative bg-bg-000" style="width: 100%; height: 120px;"><img class="w-full h-full object-cover transition duration-400 opacity-1" alt="1778161727830_image.png" src="./01_create_tables_files/preview(13)"></button></div></div></div></div></div></div></div></div></div></div></div></div></div></div><div role="region" aria-label="Notificaciones (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="fixed top-0 z-toast flex flex-col gap-3 p-4 draggable-none" style="right: var(--launch-drawer-width, 0px);"></ol></div><iframe src="./01_create_tables_files/isolated-segment.html" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" title="Analítica de marketing" style="display: none;"></iframe></div><script nonce="">(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.nonce='p6NDwRcIF/l8Yb1Q351kfg==';d.innerHTML="window.__CF$cv$params={r:'9f807e93df189b26',t:'MTc3ODE1OTczNg=='};var a=document.createElement('script');a.nonce='p6NDwRcIF/l8Yb1Q351kfg==';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; visibility: hidden;" src="./01_create_tables_files/saved_resource.html"></iframe><script src="./01_create_tables_files/s.js.descarga" async=""></script></body></html>
